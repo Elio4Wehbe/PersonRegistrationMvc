@@ -1,0 +1,110 @@
+﻿@model List<PersonRegistrationMvc.ViewModels.BookListViewModel>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+<h2>Books</h2>
+@if (User.IsInRole("Admin"))
+{
+    <a asp-controller="Book" asp-action="Add" class="btn btn-primary mb-3">Add Book</a>
+}
+
+<input type="text" id="bookSearchBox" class="form-control mb-3" style="max-width:300px;" placeholder="Search books..." />
+
+<table class="table table-striped table-bordered table-hover align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Title</th>
+            <th class="text-center">Category</th>
+            <th class="text-center">Published Year</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>@book.Title</td>
+                <td class="text-center">@book.CategoryName</td>
+                <td class="text-center">@book.PublishedYear</td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-sm btn-info" onclick="showBookDetails(@book.BookId)">Details</button>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-controller="Book" asp-action="Edit" asp-route-id="@book.BookId" class="btn btn-sm btn-primary">Edit</a>
+
+                        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-@book.BookId">
+                            Delete
+                        </button>
+
+                        <div class="modal fade" id="deleteModal-@book.BookId" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Confirm Delete</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to delete <strong>@book.Title</strong>?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <form asp-controller="Book" asp-action="DeleteConfirmed" method="post" style="display:inline;">
+                                            <input type="hidden" name="id" value="@book.BookId" />
+                                            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal fade" id="bookDetailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bookDetailsTitle">Book Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Published Year:</strong> <span id="bookDetailsYear"></span></p>
+                <p><strong>Category:</strong> <span id="bookDetailsCategory"></span></p>
+                <p><strong>Total Copies:</strong> <span id="bookDetailsTotal"></span></p>
+                <p><strong>Available Copies:</strong> <span id="bookDetailsAvailable"></span></p>
+                <p><strong>Authors:</strong> <span id="bookDetailsAuthors"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('bookSearchBox').addEventListener('keyup', function() {
+            var filter = this.value.toLowerCase();
+            document.querySelectorAll('table tbody tr').forEach(function(row) {
+                row.style.display = row.textContent.toLowerCase().includes(filter) ? '' : 'none';
+            });
+        });
+
+        function showBookDetails(bookId) {
+            fetch('/Book/GetBookDetails?id=' + bookId)
+                .then(response => response.json())
+                .then(book => {
+                    document.getElementById('bookDetailsTitle').textContent = book.title;
+                    document.getElementById('bookDetailsYear').textContent = book.publishedYear;
+                    document.getElementById('bookDetailsCategory').textContent = book.categoryName;
+                    document.getElementById('bookDetailsTotal').textContent = book.totalCopies;
+                    document.getElementById('bookDetailsAvailable').textContent = book.availableCopies;
+                    document.getElementById('bookDetailsAuthors').textContent = book.authorNames.join(', ');
+                    new bootstrap.Modal(document.getElementById('bookDetailsModal')).show();
+                });
+        }
+    </script>
+}

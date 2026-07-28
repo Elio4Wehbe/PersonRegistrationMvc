@@ -1,0 +1,42 @@
+﻿@model List<PersonRegistrationMvc.ViewModels.ArchivedItemViewModel>
+
+<h2>Archived Items</h2>
+
+<table class="table table-striped table-bordered table-hover align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Type</th>
+            <th>Name</th>
+            <th>Details</th>
+            <th class="text-center">Archived Date</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ItemType</td>
+                <td>@item.DisplayName</td>
+                <td>@item.Details</td>
+                <td class="text-center">@(item.ArchivedDate?.ToShortDateString() ?? "-")</td>
+                <td class="text-center">
+                    @if (item.ItemType == "Person")
+                    {
+                        <form asp-controller="Person" asp-action="Restore" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-sm btn-success">Restore</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-controller="Book" asp-action="Restore" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-sm btn-success">Restore</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

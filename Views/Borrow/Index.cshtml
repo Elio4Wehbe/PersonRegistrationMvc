@@ -1,0 +1,51 @@
+﻿@model List<PersonRegistrationMvc.ViewModels.BorrowListViewModel>
+
+<h2>Borrowed Books</h2>
+
+<table class="table table-striped table-bordered table-hover align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Person</th>
+            <th>Book</th>
+            <th class="text-center">Borrow Date</th>
+            <th class="text-center">Due Date</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var borrow in Model)
+        {
+            <tr>
+                <td>@borrow.PersonName</td>
+                <td>@borrow.BookTitle</td>
+                <td class="text-center">@borrow.BorrowDate.ToShortDateString()</td>
+                <td class="text-center">@borrow.DueDate.ToShortDateString()</td>
+                <td class="text-center">
+                    @if (borrow.ReturnDate != null)
+                    {
+                        <span class="badge bg-success">Returned</span>
+                    }
+                    else if (borrow.IsOverdue)
+                    {
+                        <span class="badge bg-danger">Overdue</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning">Active</span>
+                    }
+                </td>
+                <td class="text-center">
+                    @if (borrow.ReturnDate == null)
+                    {
+                        <form asp-controller="Borrow" asp-action="Return" method="post"
+                              onsubmit="return confirm('Mark this book as returned?');" style="display:inline;">
+                            <input type="hidden" name="id" value="@borrow.BorrowId" />
+                            <button type="submit" class="btn btn-sm btn-success">Return</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

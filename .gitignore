@@ -1,0 +1,25 @@
+## Build outputs
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+
+## Visual Studio
+.vs/
+*.user
+*.suo
+
+## Rider / VS Code
+.idea/
+.vscode/
+
+## OS files
+.DS_Store
+Thumbs.db
+
+## Logs
+*.log
+
+## Local database files (if ever using LocalDB .mdf files directly)
+*.mdf
+*.ldf

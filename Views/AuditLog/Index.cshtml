@@ -1,0 +1,42 @@
+﻿@model List<PersonRegistrationMvc.ViewModels.AuditLogEntryViewModel>
+
+<h2>Audit Log</h2>
+
+<input type="text" id="auditSearchBox" class="form-control mb-3" style="max-width:300px;" placeholder="Search audit log..." />
+
+<table class="table table-striped table-bordered table-hover align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Entity Type</th>
+            <th>Item</th>
+            <th class="text-center">Created By</th>
+            <th class="text-center">Created At</th>
+            <th class="text-center">Updated By</th>
+            <th class="text-center">Updated At</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var entry in Model)
+        {
+            <tr>
+                <td>@entry.EntityType</td>
+                <td>@entry.EntityName</td>
+                <td class="text-center">@(string.IsNullOrEmpty(entry.CreatedBy) ? "—" : entry.CreatedBy)</td>
+                <td class="text-center">@(entry.CreatedAt == default(DateTime) ? "Pre-existing record" : entry.CreatedAt.ToString("g"))</td>
+                <td class="text-center">@(entry.UpdatedBy ?? "—")</td>
+                <td class="text-center">@(entry.UpdatedAt.HasValue ? entry.UpdatedAt.Value.ToString("g") : "—")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        document.getElementById('auditSearchBox').addEventListener('keyup', function() {
+            var filter = this.value.toLowerCase();
+            document.querySelectorAll('table tbody tr').forEach(function(row) {
+                row.style.display = row.textContent.toLowerCase().includes(filter) ? '' : 'none';
+            });
+        });
+    </script>
+}

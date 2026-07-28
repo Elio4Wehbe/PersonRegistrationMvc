@@ -1,0 +1,58 @@
+﻿@model PersonRegistrationMvc.ViewModels.BorrowViewModel
+
+<h2>Borrow a Book</h2>
+
+<form asp-controller="Borrow" asp-action="Borrow" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label>Person</label>
+        <select asp-for="PersonId" asp-items="Model.PersonOptions" class="form-control">
+            <option value="">-- Select Person --</option>
+        </select>
+        <span asp-validation-for="PersonId" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label>Category</label>
+        <select id="categoryFilter" asp-items="Model.CategoryOptions" class="form-control">
+            <option value="">-- All Categories --</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Book</label>
+        <select asp-for="BookId" asp-items="Model.BookOptions" class="form-control">
+            <option value="">-- Select Book --</option>
+        </select>
+        <span asp-validation-for="BookId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Borrow</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.getElementById('categoryFilter').addEventListener('change', function () {
+            var categoryId = this.value;
+            var bookDropdown = document.getElementById('BookId');
+
+            bookDropdown.innerHTML = '<option value="">-- Select Book --</option>';
+
+            if (categoryId === '') {
+                return;
+            }
+
+            fetch('/Book/GetBooksByCategory?categoryId=' + categoryId)
+                .then(response => response.json())
+                .then(books => {
+                    books.forEach(function (book) {
+                        var option = document.createElement('option');
+                        option.value = book.value;
+                        option.text = book.text;
+                        bookDropdown.appendChild(option);
+                    });
+                });
+        });
+    </script>
+}

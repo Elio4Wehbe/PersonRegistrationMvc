@@ -1,0 +1,75 @@
+﻿@model List<PersonRegistrationMvc.ViewModels.CategoryListViewModel>
+
+<h2>Categories</h2>
+@if (User.IsInRole("Admin"))
+{
+    <a asp-controller="Category" asp-action="Add" class="btn btn-primary mb-3">Add Category</a>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<input type="text" id="categorySearchBox" class="form-control mb-3" style="max-width:300px;" placeholder="Search categories..." />
+
+<table class="table table-striped table-bordered table-hover align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model)
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td class="text-center">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-controller="Category" asp-action="Edit" asp-route-id="@category.CategoryId" class="btn btn-sm btn-primary">Edit</a>
+
+                        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-@category.CategoryId">
+                            Delete
+                        </button>
+
+                        <div class="modal fade" id="deleteModal-@category.CategoryId" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Confirm Delete</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to delete <strong>@category.Name</strong>?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <form asp-controller="Category" asp-action="DeleteConfirmed" method="post" style="display:inline;">
+                                            <input type="hidden" name="id" value="@category.CategoryId" />
+                                            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        document.getElementById('categorySearchBox').addEventListener('keyup', function() {
+            var filter = this.value.toLowerCase();
+            document.querySelectorAll('table tbody tr').forEach(function(row) {
+                row.style.display = row.textContent.toLowerCase().includes(filter) ? '' : 'none';
+            });
+        });
+    </script>
+}
