@@ -36,14 +36,19 @@ namespace PersonRegistrationMvc.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            var allUsers = _userManager.Users.ToList();
+
+            
+            var userNames = allUsers.ToDictionary(u => u.Id, u => u.FullName);
+
             var entries = new List<AuditLogEntryViewModel>();
 
-            entries.AddRange(_personRepository.GetAllIncludingDeleted().Select(AuditLogEntryViewModel.FromPerson));
-            entries.AddRange(_bookRepository.GetAllIncludingDeleted().Select(AuditLogEntryViewModel.FromBook));
-            entries.AddRange(_authorRepository.GetAll().Select(AuditLogEntryViewModel.FromAuthor));
-            entries.AddRange(_categoryRepository.GetAll().Select(AuditLogEntryViewModel.FromCategory));
-            entries.AddRange(_borrowRepository.GetAll().Select(AuditLogEntryViewModel.FromBorrow));
-            entries.AddRange(_userManager.Users.ToList().Select(AuditLogEntryViewModel.FromUser));
+            entries.AddRange(_personRepository.GetAllIncludingDeleted().Select(p => AuditLogEntryViewModel.FromPerson(p, userNames)));
+            entries.AddRange(_bookRepository.GetAllIncludingDeleted().Select(b => AuditLogEntryViewModel.FromBook(b, userNames)));
+            entries.AddRange(_authorRepository.GetAll().Select(a => AuditLogEntryViewModel.FromAuthor(a, userNames)));
+            entries.AddRange(_categoryRepository.GetAll().Select(c => AuditLogEntryViewModel.FromCategory(c, userNames)));
+            entries.AddRange(_borrowRepository.GetAll().Select(b => AuditLogEntryViewModel.FromBorrow(b, userNames)));
+            entries.AddRange(allUsers.Select(u => AuditLogEntryViewModel.FromUser(u, userNames)));
 
             var sorted = entries
                 .OrderByDescending(e => e.UpdatedAt ?? e.CreatedAt)

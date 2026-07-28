@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using PersonRegistrationMvc.Repositories;
 using PersonRegistrationMvc.ViewModels;
@@ -9,13 +10,25 @@ namespace PersonRegistrationMvc.Controllers
     public class AuthorController : Controller
     {
         private readonly IAuthorRepository _authorRepository;
+        private readonly IBookRepository _bookRepository;
 
-        public AuthorController(IAuthorRepository authorRepository)
+        public AuthorController(IAuthorRepository authorRepository, IBookRepository bookRepository)
         {
             _authorRepository = authorRepository;
+            _bookRepository = bookRepository;
         }
 
-        private string GetCurrentUser() => User.FindFirst("FullName")?.Value ?? User.Identity.Name;
+        private string GetCurrentUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        [HttpGet]
+        public JsonResult GetAuthorDetails(int id)
+        {
+            var author = _authorRepository.GetById(id);
+            if (author == null) return Json(null);
+
+            var books = _bookRepository.GetByAuthorId(id);
+            return Json(AuthorDetailViewModel.FromEntity(author, books));
+        }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
@@ -33,8 +46,8 @@ namespace PersonRegistrationMvc.Controllers
             }
 
             var author = AuthorAddViewModel.ToEntity(viewModel);
-            author.CreatedBy = GetCurrentUser();
-            author.CreatedAt = DateTime.Now;
+            author.CreatedBy = GetCurrentUserId();
+            author.CreatedAt = DateTime.UtcNow;
             _authorRepository.Add(author);
             return RedirectToAction("Index");
         }
@@ -69,8 +82,8 @@ namespace PersonRegistrationMvc.Controllers
             if (author == null) return NotFound();
 
             AuthorEditViewModel.ApplyTo(viewModel, author);
-            author.UpdatedBy = GetCurrentUser();
-            author.UpdatedAt = DateTime.Now;
+            author.UpdatedBy = GetCurrentUserId();
+            author.UpdatedAt = DateTime.UtcNow;
 
             _authorRepository.Update(author);
             return RedirectToAction("Index");

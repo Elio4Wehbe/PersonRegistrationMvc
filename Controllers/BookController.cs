@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PersonRegistrationMvc.Repositories;
@@ -32,7 +33,7 @@ namespace PersonRegistrationMvc.Controllers
         private List<SelectListItem> BuildCategoryOptions() =>
             _categoryRepository.GetAll().Select(c => new SelectListItem { Value = c.CategoryId.ToString(), Text = c.Name }).ToList();
 
-        private string GetCurrentUser() => User.FindFirst("FullName")?.Value ?? User.Identity.Name;
+        private string GetCurrentUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
@@ -57,8 +58,8 @@ namespace PersonRegistrationMvc.Controllers
             }
 
             var book = BookAddViewModel.ToEntity(viewModel);
-            book.CreatedBy = GetCurrentUser();
-            book.CreatedAt = DateTime.Now;
+            book.CreatedBy = GetCurrentUserId();
+            book.CreatedAt = DateTime.UtcNow;
             _bookRepository.Add(book);
             _bookRepository.SetAuthorsForBook(book.BookId, viewModel.SelectedAuthorIds);
             return RedirectToAction("Index");
@@ -99,8 +100,8 @@ namespace PersonRegistrationMvc.Controllers
             if (book == null) return NotFound();
 
             BookEditViewModel.ApplyTo(viewModel, book);
-            book.UpdatedBy = GetCurrentUser();
-            book.UpdatedAt = DateTime.Now;
+            book.UpdatedBy = GetCurrentUserId();
+            book.UpdatedAt = DateTime.UtcNow;
 
             _bookRepository.Update(book);
             _bookRepository.SetAuthorsForBook(book.BookId, viewModel.SelectedAuthorIds);
@@ -123,6 +124,8 @@ namespace PersonRegistrationMvc.Controllers
             {
                 book.IsDeleted = false;
                 book.ArchivedDate = null;
+                book.UpdatedBy = GetCurrentUserId();
+                book.UpdatedAt = DateTime.UtcNow;
                 _bookRepository.Update(book);
             }
             return RedirectToAction("Archive");
@@ -144,7 +147,9 @@ namespace PersonRegistrationMvc.Controllers
             if (book != null)
             {
                 book.IsDeleted = true;
-                book.ArchivedDate = DateTime.Now;
+                book.ArchivedDate = DateTime.UtcNow;
+                book.UpdatedBy = GetCurrentUserId();
+                book.UpdatedAt = DateTime.UtcNow;
                 _bookRepository.Update(book);
             }
             return RedirectToAction("Index");

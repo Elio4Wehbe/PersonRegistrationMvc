@@ -29,6 +29,7 @@
                 <td>@author.Name</td>
 
                 <td class="text-center">
+                    <button type="button" class="btn btn-sm btn-info" onclick="showAuthorDetails(@author.AuthorId)">Details</button>
                     @if (User.IsInRole("Admin"))
                     {
                         <a asp-controller="Author" asp-action="Edit" asp-route-id="@author.AuthorId" class="btn btn-sm btn-primary">Edit</a>
@@ -62,6 +63,20 @@
     </tbody>
 </table>
 
+<div class="modal fade" id="authorDetailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="authorDetailsTitle">Author Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Books:</strong> <span id="authorDetailsBooks"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
         document.getElementById('authorSearchBox').addEventListener('keyup', function() {
@@ -70,5 +85,17 @@
                 row.style.display = row.textContent.toLowerCase().includes(filter) ? '' : 'none';
             });
         });
+
+        function showAuthorDetails(authorId) {
+            fetch('/Author/GetAuthorDetails?id=' + authorId)
+                .then(response => response.json())
+                .then(author => {
+                    document.getElementById('authorDetailsTitle').textContent = author.name;
+                    document.getElementById('authorDetailsBooks').textContent = author.bookTitles.length
+                        ? author.bookTitles.join(', ')
+                        : 'No books yet';
+                    new bootstrap.Modal(document.getElementById('authorDetailsModal')).show();
+                });
+        }
     </script>
 }
