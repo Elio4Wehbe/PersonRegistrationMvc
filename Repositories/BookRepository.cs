@@ -97,5 +97,13 @@ namespace PersonRegistrationMvc.Repositories
                 .Include(b => b.Category)
                 .ToList();
         }
+
+        public List<Book> GetByAuthorId(int authorId)
+        {
+            return _context.Books
+                .Include(b => b.BookAuthors)
+                .Where(b => !b.IsDeleted && b.BookAuthors.Any(ba => ba.AuthorId == authorId))
+                .ToList();
+        }
     }
 }

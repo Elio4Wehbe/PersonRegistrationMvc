@@ -1,5 +1,10 @@
 ﻿@model PersonRegistrationMvc.ViewModels.DashboardViewModel
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
 <h2>Dashboard</h2>
 
 <form asp-controller="Dashboard" asp-action="Index" method="get" class="mb-4">

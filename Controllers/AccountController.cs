@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+
 using Microsoft.AspNetCore.Mvc;
 using PersonRegistrationMvc.Models;
+using PersonRegistrationMvc.Services;
 using PersonRegistrationMvc.ViewModels;
-using System.Security.Claims;
 
 namespace PersonRegistrationMvc.Controllers
 {
@@ -11,14 +13,16 @@ namespace PersonRegistrationMvc.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IEmailSender _emailSender;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailSender = emailSender;
         }
 
-        private string GetCurrentUser() => User.FindFirst("FullName")?.Value ?? User.Identity.Name;
+        private string GetCurrentUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         [HttpGet]
         public IActionResult Login() => View();
@@ -45,6 +49,68 @@ namespace PersonRegistrationMvc.Controllers
             return RedirectToAction("Login");
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult ForgotPassword() => View();
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel viewModel)
+        {
+            if (!ModelState.IsValid) return View(viewModel);
+
+            var user = await _userManager.FindByEmailAsync(viewModel.Email);
+
+            
+            if (user != null)
+            {
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var resetLink = Url.Action("ResetPassword", "Account",
+                    new { email = user.Email, token = token }, protocol: Request.Scheme);
+
+                await _emailSender.SendEmailAsync(user.Email, "Reset your password",
+                    $"Click <a href='{resetLink}'>here</a> to reset your password. If you didn't request this, ignore this email.");
+            }
+
+            TempData["Message"] = "If that email is registered, a password reset link has been sent.";
+            return RedirectToAction("Login");
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult ResetPassword(string email, string token)
+        {
+            return View(new ResetPasswordViewModel { Email = email, Token = token });
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel viewModel)
+        {
+            if (!ModelState.IsValid) return View(viewModel);
+
+            var user = await _userManager.FindByEmailAsync(viewModel.Email);
+            if (user == null)
+            {
+                // Same "don't reveal whether the account exists" principle as ForgotPassword.
+                TempData["Message"] = "Your password has been reset.";
+                return RedirectToAction("Login");
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user, viewModel.Token, viewModel.NewPassword);
+            if (result.Succeeded)
+            {
+                TempData["Message"] = "Your password has been reset. You can log in now.";
+                return RedirectToAction("Login");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+            return View(viewModel);
+        }
+
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Register() => View();
@@ -61,8 +127,8 @@ namespace PersonRegistrationMvc.Controllers
                 Email = viewModel.Email,
                 EmailConfirmed = true,
                 FullName = viewModel.FullName,
-                CreatedBy = GetCurrentUser(),
-                CreatedAt = DateTime.Now
+                CreatedBy = GetCurrentUserId(),
+                CreatedAt = DateTime.UtcNow
             };
             var result = await _userManager.CreateAsync(user, viewModel.Password);
 
@@ -135,8 +201,8 @@ namespace PersonRegistrationMvc.Controllers
             }
 
             user.FullName = viewModel.FullName;
-            user.UpdatedBy = GetCurrentUser();
-            user.UpdatedAt = DateTime.Now;
+            user.UpdatedBy = GetCurrentUserId();
+            user.UpdatedAt = DateTime.UtcNow;
             await _userManager.UpdateAsync(user);
 
             var claims = await _userManager.GetClaimsAsync(user);

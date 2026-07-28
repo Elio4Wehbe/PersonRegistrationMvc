@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using PersonRegistrationMvc.Repositories;
 using PersonRegistrationMvc.ViewModels;
@@ -18,7 +19,30 @@ namespace PersonRegistrationMvc.Controllers
             _borrowRepository = borrowRepository;
         }
 
-        private string GetCurrentUser() => User.FindFirst("FullName")?.Value ?? User.Identity.Name;
+        private string GetCurrentUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        [HttpGet]
+        public JsonResult GetPersonDetails(int id)
+        {
+            var person = _personRepository.GetById(id);
+            if (person == null) return Json(null);
+
+            var activeBorrows = _borrowRepository.GetAll()
+                .Where(b => b.PersonId == id && b.ReturnDate == null)
+                .ToList();
+
+            var viewModel = new PersonDetailViewModel
+            {
+                PersonId = person.PersonId,
+                FullName = person.FullName,
+                Age = person.Age,
+                Gender = person.Gender.ToString(),
+                Major = person.Major,
+                ActiveBorrowCount = activeBorrows.Count,
+                CurrentlyBorrowedBooks = activeBorrows.Select(b => b.Book?.Title).Where(t => t != null).ToList()
+            };
+            return Json(viewModel);
+        }
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Register()
@@ -35,8 +59,8 @@ namespace PersonRegistrationMvc.Controllers
             }
 
             var person = PersonRegistrationViewModel.ToEntity(viewModel);
-            person.CreatedBy = GetCurrentUser();
-            person.CreatedAt = DateTime.Now;
+            person.CreatedBy = GetCurrentUserId();
+            person.CreatedAt = DateTime.UtcNow;
             _personRepository.Add(person);
             return RedirectToAction("Index");
         }
@@ -77,8 +101,8 @@ namespace PersonRegistrationMvc.Controllers
             }
 
             PersonEditViewModel.ApplyTo(viewModel, person);
-            person.UpdatedBy = GetCurrentUser();
-            person.UpdatedAt = DateTime.Now;
+            person.UpdatedBy = GetCurrentUserId();
+            person.UpdatedAt = DateTime.UtcNow;
 
             _personRepository.Update(person);
             return RedirectToAction("Index");
@@ -102,7 +126,9 @@ namespace PersonRegistrationMvc.Controllers
             if (person != null)
             {
                 person.IsDeleted = true;
-                person.ArchivedDate = DateTime.Now;
+                person.ArchivedDate = DateTime.UtcNow;
+                person.UpdatedBy = GetCurrentUserId();
+                person.UpdatedAt = DateTime.UtcNow;
                 _personRepository.Update(person);
             }
             return RedirectToAction("Index");
@@ -126,6 +152,8 @@ namespace PersonRegistrationMvc.Controllers
             {
                 person.IsDeleted = false;
                 person.ArchivedDate = null;
+                person.UpdatedBy = GetCurrentUserId();
+                person.UpdatedAt = DateTime.UtcNow;
                 _personRepository.Update(person);
             }
             return RedirectToAction("Archive");

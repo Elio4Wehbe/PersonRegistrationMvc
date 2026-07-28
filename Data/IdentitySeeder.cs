@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using PersonRegistrationMvc.Models;
 using System.Security.Claims;
 
@@ -6,7 +7,7 @@ namespace PersonRegistrationMvc.Data
 {
     public static class IdentitySeeder
     {
-        public static async Task SeedRolesAndAdminAsync(IServiceProvider services)
+        public static async Task SeedRolesAndAdminAsync(IServiceProvider services, IConfiguration configuration)
         {
             var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
@@ -20,8 +21,18 @@ namespace PersonRegistrationMvc.Data
                 }
             }
 
-            string adminEmail = "admin@library.com";
-            string adminPassword = "Admin@123";
+            
+            string adminEmail = configuration["SeedAdmin:Email"];
+            string adminPassword = configuration["SeedAdmin:Password"];
+
+            if (string.IsNullOrWhiteSpace(adminEmail) || string.IsNullOrWhiteSpace(adminPassword))
+            {
+                
+                throw new InvalidOperationException(
+                    "SeedAdmin:Email and SeedAdmin:Password must be set (via appsettings.json, " +
+                    "dotnet user-secrets, or environment variables) before the app can start.");
+            }
+
             if (await userManager.FindByEmailAsync(adminEmail) == null)
             {
                 var adminUser = new ApplicationUser
@@ -41,3 +52,4 @@ namespace PersonRegistrationMvc.Data
         }
     }
 }
+

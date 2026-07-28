@@ -9,7 +9,7 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    await IdentitySeeder.SeedRolesAndAdminAsync(scope.ServiceProvider);
+    await IdentitySeeder.SeedRolesAndAdminAsync(scope.ServiceProvider, builder.Configuration);
 }
 
 if (!app.Environment.IsDevelopment())

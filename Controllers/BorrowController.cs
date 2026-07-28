@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PersonRegistrationMvc.Repositories;
@@ -26,7 +27,7 @@ namespace PersonRegistrationMvc.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        private string GetCurrentUser() => User.FindFirst("FullName")?.Value ?? User.Identity.Name;
+        private string GetCurrentUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier);
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Borrow()
@@ -50,7 +51,7 @@ namespace PersonRegistrationMvc.Controllers
         [HttpPost]
         public IActionResult Borrow(BorrowViewModel viewModel)
         {
-            viewModel.BorrowDate = DateTime.Now;
+            viewModel.BorrowDate = DateTime.UtcNow;
             viewModel.DueDate = viewModel.BorrowDate.AddDays(14);
 
             var book = _bookRepository.GetById(viewModel.BookId);
@@ -91,8 +92,8 @@ namespace PersonRegistrationMvc.Controllers
             }
 
             var borrow = BorrowViewModel.ToEntity(viewModel);
-            borrow.CreatedBy = GetCurrentUser();
-            borrow.CreatedAt = DateTime.Now;
+            borrow.CreatedBy = GetCurrentUserId();
+            borrow.CreatedAt = DateTime.UtcNow;
             _borrowRepository.Add(borrow);
 
             book.AvailableCopies -= 1;
@@ -115,9 +116,9 @@ namespace PersonRegistrationMvc.Controllers
             var borrow = _borrowRepository.GetById(id);
             if (borrow == null) return NotFound();
 
-            borrow.ReturnDate = DateTime.Now;
-            borrow.UpdatedBy = GetCurrentUser();
-            borrow.UpdatedAt = DateTime.Now;
+            borrow.ReturnDate = DateTime.UtcNow;
+            borrow.UpdatedBy = GetCurrentUserId();
+            borrow.UpdatedAt = DateTime.UtcNow;
             _borrowRepository.Update(borrow);
 
             var book = _bookRepository.GetById(borrow.BookId);

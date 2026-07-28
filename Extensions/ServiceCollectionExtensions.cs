@@ -10,7 +10,10 @@ namespace PersonRegistrationMvc.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<Filters.GlobalExceptionFilter>();
+            });
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
@@ -18,6 +21,8 @@ namespace PersonRegistrationMvc.Extensions
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddScoped<Services.IEmailSender, Services.DevEmailSender>();
 
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<IBookRepository, BookRepository>();

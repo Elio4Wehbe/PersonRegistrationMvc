@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using PersonRegistrationMvc.Repositories;
 using PersonRegistrationMvc.ViewModels;
@@ -15,7 +16,7 @@ namespace PersonRegistrationMvc.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        private string GetCurrentUser() => User.FindFirst("FullName")?.Value ?? User.Identity.Name;
+        private string GetCurrentUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
@@ -27,8 +28,8 @@ namespace PersonRegistrationMvc.Controllers
             if (!ModelState.IsValid) return View(viewModel);
 
             var category = CategoryAddViewModel.ToEntity(viewModel);
-            category.CreatedBy = GetCurrentUser();
-            category.CreatedAt = DateTime.Now;
+            category.CreatedBy = GetCurrentUserId();
+            category.CreatedAt = DateTime.UtcNow;
             _categoryRepository.Add(category);
             return RedirectToAction("Index");
         }
@@ -60,8 +61,8 @@ namespace PersonRegistrationMvc.Controllers
             if (category == null) return NotFound();
 
             CategoryEditViewModel.ApplyTo(viewModel, category);
-            category.UpdatedBy = GetCurrentUser();
-            category.UpdatedAt = DateTime.Now;
+            category.UpdatedBy = GetCurrentUserId();
+            category.UpdatedAt = DateTime.UtcNow;
 
             _categoryRepository.Update(category);
             return RedirectToAction("Index");

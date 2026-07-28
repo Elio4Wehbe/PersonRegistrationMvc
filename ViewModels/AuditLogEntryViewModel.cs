@@ -12,71 +12,77 @@ namespace PersonRegistrationMvc.ViewModels
         public string UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
-        public static AuditLogEntryViewModel FromPerson(Person person) => new AuditLogEntryViewModel
+        
+        private static string ResolveName(string userId, Dictionary<string, string> userNames)
+        {
+            if (string.IsNullOrEmpty(userId)) return null;
+            return userNames.TryGetValue(userId, out var name) ? name : "Unknown user";
+        }
+
+        public static AuditLogEntryViewModel FromPerson(Person person, Dictionary<string, string> userNames) => new AuditLogEntryViewModel
         {
             EntityType = "Person",
             EntityId = person.PersonId,
             EntityName = person.FullName,
-            CreatedBy = person.CreatedBy,
+            CreatedBy = ResolveName(person.CreatedBy, userNames),
             CreatedAt = person.CreatedAt,
-            UpdatedBy = person.UpdatedBy,
+            UpdatedBy = ResolveName(person.UpdatedBy, userNames),
             UpdatedAt = person.UpdatedAt
         };
 
-        public static AuditLogEntryViewModel FromBook(Book book) => new AuditLogEntryViewModel
+        public static AuditLogEntryViewModel FromBook(Book book, Dictionary<string, string> userNames) => new AuditLogEntryViewModel
         {
             EntityType = "Book",
             EntityId = book.BookId,
             EntityName = book.Title,
-            CreatedBy = book.CreatedBy,
+            CreatedBy = ResolveName(book.CreatedBy, userNames),
             CreatedAt = book.CreatedAt,
-            UpdatedBy = book.UpdatedBy,
+            UpdatedBy = ResolveName(book.UpdatedBy, userNames),
             UpdatedAt = book.UpdatedAt
         };
 
-        public static AuditLogEntryViewModel FromAuthor(Author author) => new AuditLogEntryViewModel
+        public static AuditLogEntryViewModel FromAuthor(Author author, Dictionary<string, string> userNames) => new AuditLogEntryViewModel
         {
             EntityType = "Author",
             EntityId = author.AuthorId,
             EntityName = author.Name,
-            CreatedBy = author.CreatedBy,
+            CreatedBy = ResolveName(author.CreatedBy, userNames),
             CreatedAt = author.CreatedAt,
-            UpdatedBy = author.UpdatedBy,
+            UpdatedBy = ResolveName(author.UpdatedBy, userNames),
             UpdatedAt = author.UpdatedAt
         };
 
-        public static AuditLogEntryViewModel FromCategory(Category category) => new AuditLogEntryViewModel
+        public static AuditLogEntryViewModel FromCategory(Category category, Dictionary<string, string> userNames) => new AuditLogEntryViewModel
         {
             EntityType = "Category",
             EntityId = category.CategoryId,
             EntityName = category.Name,
-            CreatedBy = category.CreatedBy,
+            CreatedBy = ResolveName(category.CreatedBy, userNames),
             CreatedAt = category.CreatedAt,
-            UpdatedBy = category.UpdatedBy,
+            UpdatedBy = ResolveName(category.UpdatedBy, userNames),
             UpdatedAt = category.UpdatedAt
         };
 
-        public static AuditLogEntryViewModel FromBorrow(Borrow borrow) => new AuditLogEntryViewModel
+        public static AuditLogEntryViewModel FromBorrow(Borrow borrow, Dictionary<string, string> userNames) => new AuditLogEntryViewModel
         {
             EntityType = "Borrow",
             EntityId = borrow.BorrowId,
             EntityName = $"{borrow.Person?.FullName} — {borrow.Book?.Title}",
-            CreatedBy = borrow.CreatedBy,
+            CreatedBy = ResolveName(borrow.CreatedBy, userNames),
             CreatedAt = borrow.CreatedAt,
-            UpdatedBy = borrow.UpdatedBy,
+            UpdatedBy = ResolveName(borrow.UpdatedBy, userNames),
             UpdatedAt = borrow.UpdatedAt
         };
 
-        public static AuditLogEntryViewModel FromUser(ApplicationUser user) => new AuditLogEntryViewModel
+        public static AuditLogEntryViewModel FromUser(ApplicationUser user, Dictionary<string, string> userNames) => new AuditLogEntryViewModel
         {
             EntityType = "User",
             EntityId = 0,
             EntityName = $"{user.FullName} ({user.Email})",
-            CreatedBy = user.CreatedBy,
+            CreatedBy = ResolveName(user.CreatedBy, userNames),
             CreatedAt = user.CreatedAt,
-            UpdatedBy = user.UpdatedBy,
+            UpdatedBy = ResolveName(user.UpdatedBy, userNames),
             UpdatedAt = user.UpdatedAt
         };
     }
 }
-

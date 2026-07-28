@@ -11,5 +11,6 @@ namespace PersonRegistrationMvc.Repositories
         void Delete(int id);
         void SetAuthorsForBook(int bookId, List<int> authorIds);
         List<Book> GetAllIncludingDeleted();
+        List<Book> GetByAuthorId(int authorId);
     }
 }
