@@ -22,7 +22,7 @@ namespace PersonRegistrationMvc.Extensions
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddScoped<Services.IEmailSender, Services.DevEmailSender>();
+            services.AddScoped<Services.IEmailSender, Services.SmtpEmailSender>();
 
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<IBookRepository, BookRepository>();
