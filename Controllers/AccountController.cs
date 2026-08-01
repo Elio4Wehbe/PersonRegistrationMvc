@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PersonRegistrationMvc.Models;
 using PersonRegistrationMvc.Services;
 using PersonRegistrationMvc.ViewModels;
@@ -13,16 +13,26 @@ namespace PersonRegistrationMvc.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _emailSender = emailSender;
         }
 
         private string GetCurrentUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        private List<SelectListItem> GetRoleOptions()
+        {
+            return _roleManager.Roles
+                .OrderBy(r => r.Name)
+                .Select(r => new SelectListItem { Value = r.Id, Text = r.Name })
+                .ToList();
+        }
 
         [HttpGet]
         public IActionResult Login() => View();
@@ -61,7 +71,6 @@ namespace PersonRegistrationMvc.Controllers
 
             var user = await _userManager.FindByEmailAsync(viewModel.Email);
 
-            
             if (user != null)
             {
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -92,7 +101,6 @@ namespace PersonRegistrationMvc.Controllers
             var user = await _userManager.FindByEmailAsync(viewModel.Email);
             if (user == null)
             {
-                // Same "don't reveal whether the account exists" principle as ForgotPassword.
                 TempData["Message"] = "Your password has been reset.";
                 return RedirectToAction("Login");
             }
@@ -113,13 +121,29 @@ namespace PersonRegistrationMvc.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public IActionResult Register() => View();
+        public IActionResult Register()
+        {
+            var viewModel = new RegisterViewModel { RoleOptions = GetRoleOptions() };
+            return View(viewModel);
+        }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel viewModel)
         {
-            if (!ModelState.IsValid) return View(viewModel);
+            if (!ModelState.IsValid)
+            {
+                viewModel.RoleOptions = GetRoleOptions();
+                return View(viewModel);
+            }
+
+            var role = await _roleManager.FindByIdAsync(viewModel.RoleId);
+            if (role == null)
+            {
+                ModelState.AddModelError("RoleId", "Selected role no longer exists.");
+                viewModel.RoleOptions = GetRoleOptions();
+                return View(viewModel);
+            }
 
             var user = new ApplicationUser
             {
@@ -134,7 +158,7 @@ namespace PersonRegistrationMvc.Controllers
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, viewModel.Role);
+                await _userManager.AddToRoleAsync(user, role.Name);
                 await _userManager.AddClaimAsync(user, new Claim("FullName", viewModel.FullName));
                 return RedirectToAction("Index", "Dashboard");
             }
@@ -143,6 +167,7 @@ namespace PersonRegistrationMvc.Controllers
             {
                 ModelState.AddModelError("", error.Description);
             }
+            viewModel.RoleOptions = GetRoleOptions();
             return View(viewModel);
         }
 
@@ -172,12 +197,16 @@ namespace PersonRegistrationMvc.Controllers
             var user = await _userManager.FindByIdAsync(id);
             if (user == null) return NotFound();
 
-            var roles = await _userManager.GetRolesAsync(user);
+            var roleNames = await _userManager.GetRolesAsync(user);
+            var currentRoleName = roleNames.FirstOrDefault() ?? "User";
+            var currentRole = await _roleManager.FindByNameAsync(currentRoleName);
+
             var viewModel = new UserEditViewModel
             {
                 Id = user.Id,
                 FullName = user.FullName,
-                Role = roles.FirstOrDefault() ?? "User"
+                RoleId = currentRole?.Id,
+                RoleOptions = GetRoleOptions()
             };
             return View(viewModel);
         }
@@ -186,17 +215,30 @@ namespace PersonRegistrationMvc.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(UserEditViewModel viewModel)
         {
-            if (!ModelState.IsValid) return View(viewModel);
+            if (!ModelState.IsValid)
+            {
+                viewModel.RoleOptions = GetRoleOptions();
+                return View(viewModel);
+            }
 
             var user = await _userManager.FindByIdAsync(viewModel.Id);
             if (user == null) return NotFound();
 
+            var selectedRole = await _roleManager.FindByIdAsync(viewModel.RoleId);
+            if (selectedRole == null)
+            {
+                ModelState.AddModelError("RoleId", "Selected role no longer exists.");
+                viewModel.RoleOptions = GetRoleOptions();
+                return View(viewModel);
+            }
+
             bool isEditingSelf = user.Id == _userManager.GetUserId(User);
             var currentRoles = await _userManager.GetRolesAsync(user);
 
-            if (isEditingSelf && !currentRoles.Contains(viewModel.Role))
+            if (isEditingSelf && !currentRoles.Contains(selectedRole.Name))
             {
                 ModelState.AddModelError("", "You cannot change your own role while logged in as this account.");
+                viewModel.RoleOptions = GetRoleOptions();
                 return View(viewModel);
             }
 
@@ -216,10 +258,10 @@ namespace PersonRegistrationMvc.Controllers
                 await _userManager.AddClaimAsync(user, new Claim("FullName", viewModel.FullName));
             }
 
-            if (!currentRoles.Contains(viewModel.Role))
+            if (!currentRoles.Contains(selectedRole.Name))
             {
                 await _userManager.RemoveFromRolesAsync(user, currentRoles);
-                await _userManager.AddToRoleAsync(user, viewModel.Role);
+                await _userManager.AddToRoleAsync(user, selectedRole.Name);
             }
 
             return RedirectToAction("Index");
