@@ -1,0 +1,117 @@
+﻿@model PersonRegistrationMvc.ViewModels.ReportsViewModel
+
+<h2>Dashboard & Reports</h2>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-2">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6 class="card-title">Total Books</h6>
+                <p class="fs-3 mb-0">@Model.TotalBooks</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6 class="card-title">Total Members</h6>
+                <p class="fs-3 mb-0">@Model.TotalMembers</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6 class="card-title">Active Borrowings</h6>
+                <p class="fs-3 mb-0">@Model.ActiveBorrowings</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card text-center border-danger">
+            <div class="card-body">
+                <h6 class="card-title">Overdue Books</h6>
+                <p class="fs-3 mb-0 text-danger">@Model.OverdueBooks</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6 class="card-title">This Month vs Last Month</h6>
+                <p class="fs-4 mb-0">@Model.BorrowsThisMonth <small class="text-muted">/ @Model.BorrowsLastMonth</small></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Most Borrowed Books</div>
+            <ul class="list-group list-group-flush">
+                @if (!Model.MostBorrowedBooks.Any())
+                {
+                    <li class="list-group-item text-muted">No borrow activity yet.</li>
+                }
+                @foreach (var book in Model.MostBorrowedBooks)
+                {
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>@book.Title</span>
+                        <span class="badge bg-primary rounded-pill">@book.BorrowCount</span>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Borrowing Trends (last 6 months)</div>
+            <div class="card-body"><canvas id="trendsChart"></canvas></div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">Top Categories</div>
+            <div class="card-body"><canvas id="categoriesChart"></canvas></div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">Active Users</div>
+            <div class="card-body"><canvas id="activeUsersChart"></canvas></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.umd.min.js"></script>
+    <script>
+        const trendLabels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.TrendMonthLabels));
+        const trendCounts = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.TrendMonthCounts));
+        const categoryLabels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.CategoryLabels));
+        const categoryCounts = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.CategoryCounts));
+        const userLabels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.ActiveUserLabels));
+        const userCounts = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.ActiveUserCounts));
+
+        new Chart(document.getElementById('trendsChart'), {
+            type: 'line',
+            data: { labels: trendLabels, datasets: [{ label: 'Borrows', data: trendCounts, borderColor: '#0d6efd', tension: 0.3 }] },
+            options: { plugins: { legend: { display: false } } }
+        });
+
+        new Chart(document.getElementById('categoriesChart'), {
+            type: 'pie',
+            data: { labels: categoryLabels, datasets: [{ data: categoryCounts, backgroundColor: ['#0d6efd', '#6610f2', '#d63384', '#fd7e14', '#20c997'] }] }
+        });
+
+        new Chart(document.getElementById('activeUsersChart'), {
+            type: 'bar',
+            data: { labels: userLabels, datasets: [{ label: 'Borrows', data: userCounts, backgroundColor: '#198754' }] },
+            options: { plugins: { legend: { display: false } } }
+        });
+    </script>
+}

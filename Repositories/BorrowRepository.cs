@@ -18,6 +18,7 @@ namespace PersonRegistrationMvc.Repositories
             return _context.Borrows
                 .Include(b => b.Person)
                 .Include(b => b.Book)
+                    .ThenInclude(b => b.Category)
                 .ToList();
         }
 
