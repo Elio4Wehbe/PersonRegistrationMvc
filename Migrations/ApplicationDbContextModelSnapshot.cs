@@ -203,6 +203,9 @@ namespace PersonRegistrationMvc.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("PersonId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -235,6 +238,10 @@ namespace PersonRegistrationMvc.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("PersonId")
+                        .IsUnique()
+                        .HasFilter("[PersonId] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -517,6 +524,16 @@ namespace PersonRegistrationMvc.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PersonRegistrationMvc.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("PersonRegistrationMvc.Models.Person", "Person")
+                        .WithOne()
+                        .HasForeignKey("PersonRegistrationMvc.Models.ApplicationUser", "PersonId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Person");
                 });
 
             modelBuilder.Entity("PersonRegistrationMvc.Models.Book", b =>

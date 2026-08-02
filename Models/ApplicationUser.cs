@@ -10,5 +10,8 @@ namespace PersonRegistrationMvc.Models
         public DateTime CreatedAt { get; set; }
         public string? UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
+
+        public int? PersonId { get; set; }
+        public Person? Person { get; set; }
     }
 }

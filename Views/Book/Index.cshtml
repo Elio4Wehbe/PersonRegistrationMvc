@@ -31,6 +31,10 @@
                 <td class="text-center">@book.PublishedYear</td>
                 <td class="text-center">
                     <button type="button" class="btn btn-sm btn-info" onclick="showBookDetails(@book.BookId)">Details</button>
+                    @if (book.AvailableCopies > 0)
+                    {
+                        <a asp-controller="Borrow" asp-action="Borrow" asp-route-bookId="@book.BookId" class="btn btn-sm btn-success">Borrow</a>
+                    }
                     @if (User.IsInRole("Admin"))
                     {
                         <a asp-controller="Book" asp-action="Edit" asp-route-id="@book.BookId" class="btn btn-sm btn-primary">Edit</a>
@@ -83,6 +87,7 @@
         </div>
     </div>
 </div>
+
 
 @section Scripts {
     <script>

@@ -17,7 +17,10 @@ namespace PersonRegistrationMvc.ViewModels
         public DateTime DueDate { get; set; }
 
         [ValidateNever]
-        public List<SelectListItem> PersonOptions { get; set; }
+        public bool IsAdmin { get; set; }
+
+        [ValidateNever]
+        public List<SelectListItem> PersonOptions { get; set; } = new();
 
         [ValidateNever]
         public List<SelectListItem> BookOptions { get; set; }

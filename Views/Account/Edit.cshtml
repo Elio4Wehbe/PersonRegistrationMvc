@@ -14,11 +14,72 @@
 
     <div class="mb-3">
         <label asp-for="RoleId" class="form-label">Role</label>
-        <select asp-for="RoleId" asp-items="Model.RoleOptions" class="form-select">
+        <select asp-for="RoleId" asp-items="Model.RoleOptions" class="form-select" id="roleSelect">
             <option value="">-- Select Role --</option>
         </select>
         <span asp-validation-for="RoleId" class="text-danger"></span>
     </div>
 
+    <div id="personSection" style="display:none;">
+        <div class="mb-3">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="LinkExistingPerson" id="createNewPerson" value="false" @(Model.LinkExistingPerson ? "" : "checked")>
+                <label class="form-check-label" for="createNewPerson">Create new library member</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="LinkExistingPerson" id="linkExisting" value="true" @(Model.LinkExistingPerson ? "checked" : "")>
+                <label class="form-check-label" for="linkExisting">Link existing library member</label>
+            </div>
+        </div>
+
+        <div id="newPersonFields" style="@(Model.LinkExistingPerson ? "display:none;" : "")">
+            <div class="mb-3">
+                <label asp-for="Age" class="form-label">Age</label>
+                <input asp-for="Age" class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Gender" class="form-label">Gender</label>
+                <select asp-for="Gender" asp-items="Html.GetEnumSelectList<PersonRegistrationMvc.Models.Gender>()" class="form-select"></select>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Major" class="form-label">Major</label>
+                <input asp-for="Major" class="form-control" />
+                <span asp-validation-for="Major" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div id="existingPersonField" style="@(Model.LinkExistingPerson ? "" : "display:none;")">
+            <div class="mb-3">
+                <label asp-for="PersonId" class="form-label">Library Member</label>
+                <select asp-for="PersonId" asp-items="Model.PersonOptions" class="form-select">
+                    <option value="">-- Select Person --</option>
+                </select>
+                <span asp-validation-for="PersonId" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
     <button type="submit" class="btn btn-primary">Save Changes</button>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function updateRoleUI() {
+            var roleText = document.getElementById('roleSelect').selectedOptions[0]?.text;
+            document.getElementById('personSection').style.display = roleText === 'User' ? 'block' : 'none';
+        }
+        document.getElementById('roleSelect').addEventListener('change', updateRoleUI);
+        updateRoleUI();
+
+        document.querySelectorAll('input[name="LinkExistingPerson"]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                var linking = document.getElementById('linkExisting').checked;
+                document.getElementById('newPersonFields').style.display = linking ? 'none' : 'block';
+                document.getElementById('existingPersonField').style.display = linking ? 'block' : 'none';
+            });
+        });
+    </script>
+}

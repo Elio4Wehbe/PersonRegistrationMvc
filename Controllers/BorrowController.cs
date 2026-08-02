@@ -1,56 +1,104 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using PersonRegistrationMvc.Models;
 using PersonRegistrationMvc.Repositories;
 using PersonRegistrationMvc.ViewModels;
 
 namespace PersonRegistrationMvc.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class BorrowController : Controller
     {
         private readonly IBorrowRepository _borrowRepository;
         private readonly IPersonRepository _personRepository;
         private readonly IBookRepository _bookRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public BorrowController(
             IBorrowRepository borrowRepository,
             IPersonRepository personRepository,
             IBookRepository bookRepository,
-            ICategoryRepository categoryRepository)
+            ICategoryRepository categoryRepository,
+            UserManager<ApplicationUser> userManager)
         {
             _borrowRepository = borrowRepository;
             _personRepository = personRepository;
             _bookRepository = bookRepository;
             _categoryRepository = categoryRepository;
+            _userManager = userManager;
         }
 
         private string GetCurrentUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier);
-        [Authorize(Roles = "Admin")]
+
+        private List<SelectListItem> BuildPersonOptions() =>
+            _personRepository.GetAll()
+                .Select(p => new SelectListItem { Value = p.PersonId.ToString(), Text = p.FullName })
+                .ToList();
+
+        private List<SelectListItem> BuildBookOptions() =>
+            _bookRepository.GetAll()
+                .Select(b => new SelectListItem { Value = b.BookId.ToString(), Text = b.Title })
+                .ToList();
+
+        private List<SelectListItem> BuildCategoryOptions() =>
+            _categoryRepository.GetAll()
+                .Select(c => new SelectListItem { Value = c.CategoryId.ToString(), Text = c.Name })
+                .ToList();
+
         [HttpGet]
-        public IActionResult Borrow()
+        public async Task<IActionResult> Borrow(int? bookId)
         {
+            bool isAdmin = User.IsInRole("Admin");
+
             var viewModel = new BorrowViewModel
             {
-                PersonOptions = _personRepository.GetAll()
-                    .Select(p => new SelectListItem { Value = p.PersonId.ToString(), Text = p.FullName })
-                    .ToList(),
-                BookOptions = _bookRepository.GetAll()
-                    .Select(b => new SelectListItem { Value = b.BookId.ToString(), Text = b.Title })
-                    .ToList(),
-                CategoryOptions = _categoryRepository.GetAll()
-                    .Select(c => new SelectListItem { Value = c.CategoryId.ToString(), Text = c.Name })
-                    .ToList()
+                IsAdmin = isAdmin,
+                BookId = bookId ?? 0,
+                BookOptions = BuildBookOptions(),
+                CategoryOptions = BuildCategoryOptions()
             };
+
+            if (isAdmin)
+            {
+                viewModel.PersonOptions = BuildPersonOptions();
+            }
+            else
+            {
+                var currentUser = await _userManager.FindByIdAsync(GetCurrentUserId());
+                if (currentUser?.PersonId == null)
+                {
+                    TempData["ErrorMessage"] = "Your account isn't linked to a library member record yet. Contact an admin.";
+                    return RedirectToAction("Index");
+                }
+                viewModel.PersonId = currentUser.PersonId.Value;
+            }
 
             return View(viewModel);
         }
-        [Authorize(Roles = "Admin")]
+
         [HttpPost]
-        public IActionResult Borrow(BorrowViewModel viewModel)
+        public async Task<IActionResult> Borrow(BorrowViewModel viewModel)
         {
+            bool isAdmin = User.IsInRole("Admin");
+
+            if (!isAdmin)
+            {
+                var currentUser = await _userManager.FindByIdAsync(GetCurrentUserId());
+                if (currentUser?.PersonId == null)
+                {
+                    TempData["ErrorMessage"] = "Your account isn't linked to a library member record yet. Contact an admin.";
+                    return RedirectToAction("Index");
+                }
+                // Non-admins never send PersonId from the form (it's hidden), so overwrite
+                // whatever bound and clear the Range-validation error that value would trip.
+                viewModel.PersonId = currentUser.PersonId.Value;
+                ModelState.Remove(nameof(viewModel.PersonId));
+            }
+
             viewModel.BorrowDate = DateTime.UtcNow;
             viewModel.DueDate = viewModel.BorrowDate.AddDays(14);
 
@@ -78,16 +126,10 @@ namespace PersonRegistrationMvc.Controllers
 
             if (!ModelState.IsValid)
             {
-                viewModel.PersonOptions = _personRepository.GetAll()
-                    .Select(p => new SelectListItem { Value = p.PersonId.ToString(), Text = p.FullName })
-                    .ToList();
-                viewModel.BookOptions = _bookRepository.GetAll()
-                    .Select(b => new SelectListItem { Value = b.BookId.ToString(), Text = b.Title })
-                    .ToList();
-                viewModel.CategoryOptions = _categoryRepository.GetAll()
-                    .Select(c => new SelectListItem { Value = c.CategoryId.ToString(), Text = c.Name })
-                    .ToList();
-
+                viewModel.IsAdmin = isAdmin;
+                viewModel.BookOptions = BuildBookOptions();
+                viewModel.CategoryOptions = BuildCategoryOptions();
+                viewModel.PersonOptions = isAdmin ? BuildPersonOptions() : new List<SelectListItem>();
                 return View(viewModel);
             }
 
@@ -103,18 +145,34 @@ namespace PersonRegistrationMvc.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var borrows = _borrowRepository.GetAll();
+
+            if (!User.IsInRole("Admin"))
+            {
+                var currentUser = await _userManager.FindByIdAsync(GetCurrentUserId());
+                borrows = borrows.Where(b => b.PersonId == currentUser!.PersonId).ToList();
+            }
+
             var viewModels = borrows.Select(b => BorrowListViewModel.FromEntity(b)).ToList();
             return View(viewModels);
         }
-        [Authorize(Roles = "Admin")]
+
         [HttpPost]
-        public IActionResult Return(int id)
+        public async Task<IActionResult> Return(int id)
         {
             var borrow = _borrowRepository.GetById(id);
             if (borrow == null) return NotFound();
+
+            if (!User.IsInRole("Admin"))
+            {
+                var currentUser = await _userManager.FindByIdAsync(GetCurrentUserId());
+                if (currentUser?.PersonId == null || borrow.PersonId != currentUser.PersonId)
+                {
+                    return Forbid();
+                }
+            }
 
             borrow.ReturnDate = DateTime.UtcNow;
             borrow.UpdatedBy = GetCurrentUserId();
