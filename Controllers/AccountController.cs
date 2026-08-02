@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PersonRegistrationMvc.Models;
+using PersonRegistrationMvc.Repositories;
 using PersonRegistrationMvc.Services;
 using PersonRegistrationMvc.ViewModels;
 
@@ -14,13 +15,20 @@ namespace PersonRegistrationMvc.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IPersonRepository _personRepository;
         private readonly IEmailSender _emailSender;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IEmailSender emailSender)
+        public AccountController(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
+            IPersonRepository personRepository,
+            IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _personRepository = personRepository;
             _emailSender = emailSender;
         }
 
@@ -31,6 +39,20 @@ namespace PersonRegistrationMvc.Controllers
             return _roleManager.Roles
                 .OrderBy(r => r.Name)
                 .Select(r => new SelectListItem { Value = r.Id, Text = r.Name })
+                .ToList();
+        }
+
+        private List<SelectListItem> GetUnlinkedPersonOptions(int? includePersonId = null)
+        {
+            var linkedPersonIds = _userManager.Users
+                .Where(u => u.PersonId != null && u.PersonId != includePersonId)
+                .Select(u => u.PersonId!.Value)
+                .ToHashSet();
+
+            return _personRepository.GetAll()
+                .Where(p => !linkedPersonIds.Contains(p.PersonId))
+                .OrderBy(p => p.FullName)
+                .Select(p => new SelectListItem { Value = p.PersonId.ToString(), Text = p.FullName })
                 .ToList();
         }
 
@@ -123,7 +145,11 @@ namespace PersonRegistrationMvc.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            var viewModel = new RegisterViewModel { RoleOptions = GetRoleOptions() };
+            var viewModel = new RegisterViewModel
+            {
+                RoleOptions = GetRoleOptions(),
+                PersonOptions = GetUnlinkedPersonOptions()
+            };
             return View(viewModel);
         }
 
@@ -131,18 +157,56 @@ namespace PersonRegistrationMvc.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel viewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                viewModel.RoleOptions = GetRoleOptions();
-                return View(viewModel);
-            }
+            var role = await _roleManager.FindByIdAsync(viewModel.RoleId ?? "");
 
-            var role = await _roleManager.FindByIdAsync(viewModel.RoleId);
             if (role == null)
             {
                 ModelState.AddModelError("RoleId", "Selected role no longer exists.");
+            }
+            else if (role.Name == "User")
+            {
+                if (viewModel.LinkExistingPerson)
+                {
+                    if (viewModel.PersonId == null || viewModel.PersonId <= 0)
+                        ModelState.AddModelError("PersonId", "Please select a library member to link.");
+                }
+                else
+                {
+                    if (viewModel.Age == null) ModelState.AddModelError("Age", "Age is required.");
+                    if (viewModel.Gender == null) ModelState.AddModelError("Gender", "Gender is required.");
+                    if (string.IsNullOrWhiteSpace(viewModel.Major)) ModelState.AddModelError("Major", "Major is required.");
+                }
+            }
+
+            if (!ModelState.IsValid)
+            {
                 viewModel.RoleOptions = GetRoleOptions();
+                viewModel.PersonOptions = GetUnlinkedPersonOptions();
                 return View(viewModel);
+            }
+
+            int? personId = null;
+
+            if (role!.Name == "User")
+            {
+                if (viewModel.LinkExistingPerson)
+                {
+                    personId = viewModel.PersonId;
+                }
+                else
+                {
+                    var newPerson = new Person
+                    {
+                        FullName = viewModel.FullName,
+                        Age = viewModel.Age!.Value,
+                        Gender = viewModel.Gender!.Value,
+                        Major = viewModel.Major!,
+                        CreatedBy = GetCurrentUserId(),
+                        CreatedAt = DateTime.UtcNow
+                    };
+                    _personRepository.Add(newPerson);
+                    personId = newPerson.PersonId;
+                }
             }
 
             var user = new ApplicationUser
@@ -151,6 +215,7 @@ namespace PersonRegistrationMvc.Controllers
                 Email = viewModel.Email,
                 EmailConfirmed = true,
                 FullName = viewModel.FullName,
+                PersonId = personId,
                 CreatedBy = GetCurrentUserId(),
                 CreatedAt = DateTime.UtcNow
             };
@@ -168,6 +233,7 @@ namespace PersonRegistrationMvc.Controllers
                 ModelState.AddModelError("", error.Description);
             }
             viewModel.RoleOptions = GetRoleOptions();
+            viewModel.PersonOptions = GetUnlinkedPersonOptions();
             return View(viewModel);
         }
 
@@ -206,7 +272,10 @@ namespace PersonRegistrationMvc.Controllers
                 Id = user.Id,
                 FullName = user.FullName,
                 RoleId = currentRole?.Id,
-                RoleOptions = GetRoleOptions()
+                PersonId = user.PersonId,
+                LinkExistingPerson = user.PersonId != null,
+                RoleOptions = GetRoleOptions(),
+                PersonOptions = GetUnlinkedPersonOptions(user.PersonId)
             };
             return View(viewModel);
         }
@@ -215,34 +284,74 @@ namespace PersonRegistrationMvc.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(UserEditViewModel viewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                viewModel.RoleOptions = GetRoleOptions();
-                return View(viewModel);
-            }
-
-            var user = await _userManager.FindByIdAsync(viewModel.Id);
+            var user = await _userManager.FindByIdAsync(viewModel.Id ?? "");
             if (user == null) return NotFound();
 
-            var selectedRole = await _roleManager.FindByIdAsync(viewModel.RoleId);
+            var selectedRole = await _roleManager.FindByIdAsync(viewModel.RoleId ?? "");
+
             if (selectedRole == null)
             {
                 ModelState.AddModelError("RoleId", "Selected role no longer exists.");
+            }
+            else if (selectedRole.Name == "User")
+            {
+                if (viewModel.LinkExistingPerson)
+                {
+                    if (viewModel.PersonId == null || viewModel.PersonId <= 0)
+                        ModelState.AddModelError("PersonId", "Please select a library member to link.");
+                }
+                else
+                {
+                    if (viewModel.Age == null) ModelState.AddModelError("Age", "Age is required.");
+                    if (viewModel.Gender == null) ModelState.AddModelError("Gender", "Gender is required.");
+                    if (string.IsNullOrWhiteSpace(viewModel.Major)) ModelState.AddModelError("Major", "Major is required.");
+                }
+            }
+
+            if (!ModelState.IsValid)
+            {
                 viewModel.RoleOptions = GetRoleOptions();
+                viewModel.PersonOptions = GetUnlinkedPersonOptions(user.PersonId);
                 return View(viewModel);
             }
 
             bool isEditingSelf = user.Id == _userManager.GetUserId(User);
             var currentRoles = await _userManager.GetRolesAsync(user);
 
-            if (isEditingSelf && !currentRoles.Contains(selectedRole.Name))
+            if (isEditingSelf && !currentRoles.Contains(selectedRole!.Name))
             {
                 ModelState.AddModelError("", "You cannot change your own role while logged in as this account.");
                 viewModel.RoleOptions = GetRoleOptions();
+                viewModel.PersonOptions = GetUnlinkedPersonOptions(user.PersonId);
                 return View(viewModel);
             }
 
+            int? personId = null;
+
+            if (selectedRole!.Name == "User")
+            {
+                if (viewModel.LinkExistingPerson)
+                {
+                    personId = viewModel.PersonId;
+                }
+                else
+                {
+                    var newPerson = new Person
+                    {
+                        FullName = viewModel.FullName,
+                        Age = viewModel.Age!.Value,
+                        Gender = viewModel.Gender!.Value,
+                        Major = viewModel.Major!,
+                        CreatedBy = GetCurrentUserId(),
+                        CreatedAt = DateTime.UtcNow
+                    };
+                    _personRepository.Add(newPerson);
+                    personId = newPerson.PersonId;
+                }
+            }
+
             user.FullName = viewModel.FullName;
+            user.PersonId = personId;
             user.UpdatedBy = GetCurrentUserId();
             user.UpdatedAt = DateTime.UtcNow;
             await _userManager.UpdateAsync(user);

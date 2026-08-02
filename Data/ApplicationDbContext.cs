@@ -69,6 +69,15 @@ namespace PersonRegistrationMvc.Data
             {
                 entity.Property(u => u.CreatedBy).HasMaxLength(256);
                 entity.Property(u => u.UpdatedBy).HasMaxLength(256);
+
+                entity.HasOne(u => u.Person)
+                      .WithOne()
+                      .HasForeignKey<ApplicationUser>(u => u.PersonId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasIndex(u => u.PersonId)
+                      .IsUnique()
+                      .HasFilter("[PersonId] IS NOT NULL");
             });
 
             modelBuilder.Entity<BookAuthor>()

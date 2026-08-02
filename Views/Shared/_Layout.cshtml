@@ -25,6 +25,12 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Borrow" asp-action="Index">My Borrows</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Borrow" asp-action="Borrow">Borrow a Book</a>
+                            </li>
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item dropdown">
@@ -33,9 +39,6 @@
                                         <li><a class="dropdown-item" asp-controller="Person" asp-action="Index">Persons</a></li>
                                         <li><a class="dropdown-item" asp-controller="Author" asp-action="Index">Authors</a></li>
                                         <li><a class="dropdown-item" asp-controller="Category" asp-action="Index">Categories</a></li>
-                                        <li><hr class="dropdown-divider" /></li>
-                                        <li><a class="dropdown-item" asp-controller="Borrow" asp-action="Index">Borrows</a></li>
-                                        <li><a class="dropdown-item" asp-controller="Borrow" asp-action="Borrow">Borrow a Book</a></li>
                                         <li><a class="dropdown-item" asp-controller="Dashboard" asp-action="Archived">Archived</a></li>
                                         <li><hr class="dropdown-divider" /></li>
                                         <li><a class="dropdown-item" asp-controller="Account" asp-action="Index">Manage Users</a></li>

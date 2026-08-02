@@ -5,13 +5,20 @@
 <form asp-controller="Borrow" asp-action="Borrow" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <div class="mb-3">
-        <label>Person</label>
-        <select asp-for="PersonId" asp-items="Model.PersonOptions" class="form-control">
-            <option value="">-- Select Person --</option>
-        </select>
-        <span asp-validation-for="PersonId" class="text-danger"></span>
-    </div>
+    @if (Model.IsAdmin)
+    {
+        <div class="mb-3">
+            <label>Person</label>
+            <select asp-for="PersonId" asp-items="Model.PersonOptions" class="form-control">
+                <option value="">-- Select Person --</option>
+            </select>
+            <span asp-validation-for="PersonId" class="text-danger"></span>
+        </div>
+    }
+    else
+    {
+        <input type="hidden" asp-for="PersonId" />
+    }
     <div class="mb-3">
         <label>Category</label>
         <select id="categoryFilter" asp-items="Model.CategoryOptions" class="form-control">
