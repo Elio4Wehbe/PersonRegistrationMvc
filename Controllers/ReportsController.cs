@@ -23,12 +23,16 @@ namespace PersonRegistrationMvc.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(int months = 6)
         {
+            if (months < 1) months = 1;
+            if (months > 24) months = 24;
+
             var viewModel = ReportsViewModel.Build(
                 _bookRepository.GetAll(),
                 _personRepository.GetAll(),
-                _borrowRepository.GetAll());
+                _borrowRepository.GetAll(),
+                months);
 
             return View(viewModel);
         }

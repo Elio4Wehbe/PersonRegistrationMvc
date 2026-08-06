@@ -69,7 +69,14 @@
 <div class="row g-3">
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header">Borrowing Trends (last 6 months)</div>
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Borrowing Trends (last @Model.TrendMonths months)</span>
+                <div class="d-flex align-items-center gap-2">
+                    <input type="number" id="trendMonthsInput" class="form-control form-control-sm" style="width: 70px;"
+                           min="1" max="24" value="@Model.TrendMonths" />
+                    <button type="button" id="trendMonthsApply" class="btn btn-sm btn-outline-primary">Apply</button>
+                </div>
+            </div>
             <div class="card-body"><canvas id="trendsChart"></canvas></div>
         </div>
     </div>
@@ -90,6 +97,13 @@
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.umd.min.js"></script>
     <script>
+        document.getElementById('trendMonthsApply').addEventListener('click', function() {
+            var value = parseInt(document.getElementById('trendMonthsInput').value, 10);
+            if (isNaN(value) || value < 1) value = 1;
+            if (value > 24) value = 24;
+            window.location.href = '/Reports/Index?months=' + value;
+        });
+
         const trendLabels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.TrendMonthLabels));
         const trendCounts = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.TrendMonthCounts));
         const categoryLabels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.CategoryLabels));

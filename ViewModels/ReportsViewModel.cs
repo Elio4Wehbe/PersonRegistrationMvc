@@ -17,6 +17,8 @@ namespace PersonRegistrationMvc.ViewModels
         public int BorrowsThisMonth { get; set; }
         public int BorrowsLastMonth { get; set; }
 
+        public int TrendMonths { get; set; }
+
         public List<TopBookStat> MostBorrowedBooks { get; set; } = new();
 
         public List<string> TrendMonthLabels { get; set; } = new();
@@ -28,7 +30,7 @@ namespace PersonRegistrationMvc.ViewModels
         public List<string> ActiveUserLabels { get; set; } = new();
         public List<int> ActiveUserCounts { get; set; } = new();
 
-        public static ReportsViewModel Build(List<Book> books, List<Person> persons, List<Borrow> borrows)
+        public static ReportsViewModel Build(List<Book> books, List<Person> persons, List<Borrow> borrows, int trendMonths)
         {
             var now = DateTime.UtcNow;
             var lastMonth = now.AddMonths(-1);
@@ -40,7 +42,8 @@ namespace PersonRegistrationMvc.ViewModels
                 ActiveBorrowings = borrows.Count(b => b.ReturnDate == null),
                 OverdueBooks = borrows.Count(b => b.ReturnDate == null && b.DueDate < now),
                 BorrowsThisMonth = borrows.Count(b => b.BorrowDate.Year == now.Year && b.BorrowDate.Month == now.Month),
-                BorrowsLastMonth = borrows.Count(b => b.BorrowDate.Year == lastMonth.Year && b.BorrowDate.Month == lastMonth.Month)
+                BorrowsLastMonth = borrows.Count(b => b.BorrowDate.Year == lastMonth.Year && b.BorrowDate.Month == lastMonth.Month),
+                TrendMonths = trendMonths
             };
 
             viewModel.MostBorrowedBooks = borrows
@@ -51,7 +54,7 @@ namespace PersonRegistrationMvc.ViewModels
                 .Take(5)
                 .ToList();
 
-            for (int i = 5; i >= 0; i--)
+            for (int i = trendMonths - 1; i >= 0; i--)
             {
                 var month = now.AddMonths(-i);
                 viewModel.TrendMonthLabels.Add(month.ToString("MMM yyyy"));
