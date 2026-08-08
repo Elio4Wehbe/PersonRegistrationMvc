@@ -7,6 +7,8 @@ builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
 
+app.UseRequestLocalization();
+
 using (var scope = app.Services.CreateScope())
 {
     await IdentitySeeder.SeedRolesAndAdminAsync(scope.ServiceProvider, builder.Configuration);
