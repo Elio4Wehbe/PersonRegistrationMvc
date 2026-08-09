@@ -7,25 +7,23 @@ namespace PersonRegistrationMvc.ViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "FullNameRequired")]
         public string FullName { get; set; }
 
-        [Required, EmailAddress]
+        [Required(ErrorMessage = "EmailRequired")]
+        [EmailAddress(ErrorMessage = "EmailInvalid")]
         public string Email { get; set; }
 
-        [Required, DataType(DataType.Password)]
+        [Required(ErrorMessage = "PasswordRequired")]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "Please select a role.")]
+        [Required(ErrorMessage = "RoleRequired")]
         public string RoleId { get; set; }
 
-        
         public bool LinkExistingPerson { get; set; }
 
-        
         public int? PersonId { get; set; }
 
-        
         public int? Age { get; set; }
         public Gender? Gender { get; set; }
         public string? Major { get; set; }

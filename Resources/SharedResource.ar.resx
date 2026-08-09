@@ -117,6 +117,33 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AgeLabel" xml:space="preserve">
+    <value>العمر</value>
+  </data>
+  <data name="AgeRequired" xml:space="preserve">
+    <value>العمر مطلوب.</value>
+  </data>
+  <data name="CannotChangeOwnRole" xml:space="preserve">
+    <value>لا يمكنك تغيير دورك الخاص أثناء تسجيل الدخول بهذا الحساب.</value>
+  </data>
+  <data name="ConfirmPasswordLabel" xml:space="preserve">
+    <value>تأكيد كلمة المرور</value>
+  </data>
+  <data name="ConfirmPasswordRequired" xml:space="preserve">
+    <value>الرجاء تأكيد كلمة المرور.</value>
+  </data>
+  <data name="CreateNewMemberOption" xml:space="preserve">
+    <value>إنشاء عضو مكتبة جديد</value>
+  </data>
+  <data name="CreateUserButton" xml:space="preserve">
+    <value> إنشاء مستخدم</value>
+  </data>
+  <data name="CreateUserTitle" xml:space="preserve">
+    <value> إنشاء مستخدم</value>
+  </data>
+  <data name="EditUserTitle" xml:space="preserve">
+    <value>تعديل المستخدم</value>
+  </data>
   <data name="EmailInvalid" xml:space="preserve">
     <value>الرجاء إدخال بريد إلكتروني صالح.</value>
   </data>
@@ -126,11 +153,35 @@
   <data name="EmailRequired" xml:space="preserve">
     <value>البريد الإلكتروني مطلوب.</value>
   </data>
+  <data name="ForgotPasswordConfirmation" xml:space="preserve">
+    <value>إذا كان هذا البريد الإلكتروني مسجلاً، فقد تم إرسال رابط إعادة تعيين كلمة المرور.</value>
+  </data>
   <data name="ForgotPasswordLink" xml:space="preserve">
     <value> نسيت كلمة المرور؟</value>
   </data>
+  <data name="ForgotPasswordTitle" xml:space="preserve">
+    <value>نسيت كلمة المرور</value>
+  </data>
+  <data name="FullNameLabel" xml:space="preserve">
+    <value>الاسم الكامل</value>
+  </data>
+  <data name="FullNameRequired" xml:space="preserve">
+    <value>الاسم الكامل مطلوب.</value>
+  </data>
+  <data name="GenderLabel" xml:space="preserve">
+    <value> الجنس</value>
+  </data>
+  <data name="GenderRequiredMsg" xml:space="preserve">
+    <value>الجنس مطلوب.</value>
+  </data>
   <data name="InvalidLoginAttempt" xml:space="preserve">
     <value>محاولة تسجيل دخول غير صالحة.</value>
+  </data>
+  <data name="LibraryMemberLabel" xml:space="preserve">
+    <value>عضو المكتبة</value>
+  </data>
+  <data name="LinkExistingMemberOption" xml:space="preserve">
+    <value>ربط بعضو مكتبة موجود</value>
   </data>
   <data name="LoginButton" xml:space="preserve">
     <value> تسجيل الدخول</value>
@@ -138,14 +189,62 @@
   <data name="LoginTitle" xml:space="preserve">
     <value>تسجيل الدخول</value>
   </data>
+  <data name="MajorLabel" xml:space="preserve">
+    <value>التخصص</value>
+  </data>
+  <data name="MajorRequiredMsg" xml:space="preserve">
+    <value>التخصص مطلوب.</value>
+  </data>
+  <data name="NewPasswordLabel" xml:space="preserve">
+    <value>كلمة المرور الجديدة</value>
+  </data>
+  <data name="NewPasswordRequired" xml:space="preserve">
+    <value>كلمة المرور الجديدة مطلوبة.</value>
+  </data>
   <data name="PasswordLabel" xml:space="preserve">
     <value>كلمة المرور</value>
   </data>
   <data name="PasswordRequired" xml:space="preserve">
     <value>كلمة المرور مطلوبة.</value>
   </data>
+  <data name="PasswordsDoNotMatch" xml:space="preserve">
+    <value>كلمتا المرور غير متطابقتين.</value>
+  </data>
+  <data name="PersonLinkRequired" xml:space="preserve">
+    <value>الرجاء اختيار عضو مكتبة للربط.</value>
+  </data>
   <data name="RememberMeLabel" xml:space="preserve">
     <value>تذكرني</value>
+  </data>
+  <data name="ResetPasswordButton" xml:space="preserve">
+    <value>إعادة تعيين كلمة المرور</value>
+  </data>
+  <data name="ResetPasswordConfirmation" xml:space="preserve">
+    <value>تمت إعادة تعيين كلمة المرور الخاصة بك. يمكنك تسجيل الدخول الآن.</value>
+  </data>
+  <data name="ResetPasswordTitle" xml:space="preserve">
+    <value>إعادة تعيين كلمة المرور</value>
+  </data>
+  <data name="RoleLabel" xml:space="preserve">
+    <value>الدور</value>
+  </data>
+  <data name="RoleNotFound" xml:space="preserve">
+    <value>الدور المحدد لم يعد موجودًا.</value>
+  </data>
+  <data name="RoleRequired" xml:space="preserve">
+    <value>الرجاء اختيار الدور.</value>
+  </data>
+  <data name="SaveChangesButton" xml:space="preserve">
+    <value>Save حفظ التغييرات</value>
+  </data>
+  <data name="SelectPersonOption" xml:space="preserve">
+    <value>-- اختر الشخص --</value>
+  </data>
+  <data name="SelectRoleOption" xml:space="preserve">
+    <value>-- اختر الدور --</value>
+  </data>
+  <data name="SendResetLinkButton" xml:space="preserve">
+    <value>إرسال رابط إعادة التعيين</value>
   </data>
   <data name="WiringTest" xml:space="preserve">
     <value>الترجمة تعمل</value>

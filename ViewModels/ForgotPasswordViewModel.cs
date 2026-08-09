@@ -4,7 +4,8 @@ namespace PersonRegistrationMvc.ViewModels
 {
     public class ForgotPasswordViewModel
     {
-        [Required, EmailAddress]
+        [Required(ErrorMessage = "EmailRequired")]
+        [EmailAddress(ErrorMessage = "EmailInvalid")]
         public string Email { get; set; }
     }
 }

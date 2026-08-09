@@ -10,10 +10,11 @@ namespace PersonRegistrationMvc.ViewModels
         [Required]
         public string Token { get; set; }
 
-        [Required, DataType(DataType.Password)]
+        [Required(ErrorMessage = "NewPasswordRequired")]
         public string NewPassword { get; set; }
 
-        [Required, DataType(DataType.Password), Compare("NewPassword")]
+        [Required(ErrorMessage = "ConfirmPasswordRequired")]
+        [Compare("NewPassword", ErrorMessage = "PasswordsDoNotMatch")]
         public string ConfirmPassword { get; set; }
     }
 }

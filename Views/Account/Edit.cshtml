@@ -1,21 +1,22 @@
 ﻿@model PersonRegistrationMvc.ViewModels.UserEditViewModel
+@inject Microsoft.Extensions.Localization.IStringLocalizer<PersonRegistrationMvc.SharedResource> Localizer
 
-<h2>Edit User</h2>
+<h2>@Localizer["EditUserTitle"]</h2>
 
 <form asp-controller="Account" asp-action="Edit" method="post">
     <input type="hidden" asp-for="Id" />
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <div class="mb-3">
-        <label asp-for="FullName" class="form-label"></label>
+        <label asp-for="FullName" class="form-label">@Localizer["FullNameLabel"]</label>
         <input asp-for="FullName" class="form-control" />
         <span asp-validation-for="FullName" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="RoleId" class="form-label">Role</label>
+        <label asp-for="RoleId" class="form-label">@Localizer["RoleLabel"]</label>
         <select asp-for="RoleId" asp-items="Model.RoleOptions" class="form-select" id="roleSelect">
-            <option value="">-- Select Role --</option>
+            <option value="">@Localizer["SelectRoleOption"]</option>
         </select>
         <span asp-validation-for="RoleId" class="text-danger"></span>
     </div>
@@ -24,27 +25,27 @@
         <div class="mb-3">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="LinkExistingPerson" id="createNewPerson" value="false" @(Model.LinkExistingPerson ? "" : "checked")>
-                <label class="form-check-label" for="createNewPerson">Create new library member</label>
+                <label class="form-check-label" for="createNewPerson">@Localizer["CreateNewMemberOption"]</label>
             </div>
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="LinkExistingPerson" id="linkExisting" value="true" @(Model.LinkExistingPerson ? "checked" : "")>
-                <label class="form-check-label" for="linkExisting">Link existing library member</label>
+                <label class="form-check-label" for="linkExisting">@Localizer["LinkExistingMemberOption"]</label>
             </div>
         </div>
 
         <div id="newPersonFields" style="@(Model.LinkExistingPerson ? "display:none;" : "")">
             <div class="mb-3">
-                <label asp-for="Age" class="form-label">Age</label>
+                <label asp-for="Age" class="form-label">@Localizer["AgeLabel"]</label>
                 <input asp-for="Age" class="form-control" />
                 <span asp-validation-for="Age" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="Gender" class="form-label">Gender</label>
+                <label asp-for="Gender" class="form-label">@Localizer["GenderLabel"]</label>
                 <select asp-for="Gender" asp-items="Html.GetEnumSelectList<PersonRegistrationMvc.Models.Gender>()" class="form-select"></select>
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="Major" class="form-label">Major</label>
+                <label asp-for="Major" class="form-label">@Localizer["MajorLabel"]</label>
                 <input asp-for="Major" class="form-control" />
                 <span asp-validation-for="Major" class="text-danger"></span>
             </div>
@@ -52,16 +53,16 @@
 
         <div id="existingPersonField" style="@(Model.LinkExistingPerson ? "" : "display:none;")">
             <div class="mb-3">
-                <label asp-for="PersonId" class="form-label">Library Member</label>
+                <label asp-for="PersonId" class="form-label">@Localizer["LibraryMemberLabel"]</label>
                 <select asp-for="PersonId" asp-items="Model.PersonOptions" class="form-select">
-                    <option value="">-- Select Person --</option>
+                    <option value="">@Localizer["SelectPersonOption"]</option>
                 </select>
                 <span asp-validation-for="PersonId" class="text-danger"></span>
             </div>
         </div>
     </div>
 
-    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <button type="submit" class="btn btn-primary">@Localizer["SaveChangesButton"]</button>
 </form>
 
 @section Scripts {
