@@ -117,6 +117,36 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="EmailInvalid" xml:space="preserve">
+    <value>الرجاء إدخال بريد إلكتروني صالح.</value>
+  </data>
+  <data name="EmailLabel" xml:space="preserve">
+    <value>البريد الإلكتروني</value>
+  </data>
+  <data name="EmailRequired" xml:space="preserve">
+    <value>البريد الإلكتروني مطلوب.</value>
+  </data>
+  <data name="ForgotPasswordLink" xml:space="preserve">
+    <value> نسيت كلمة المرور؟</value>
+  </data>
+  <data name="InvalidLoginAttempt" xml:space="preserve">
+    <value>محاولة تسجيل دخول غير صالحة.</value>
+  </data>
+  <data name="LoginButton" xml:space="preserve">
+    <value> تسجيل الدخول</value>
+  </data>
+  <data name="LoginTitle" xml:space="preserve">
+    <value>تسجيل الدخول</value>
+  </data>
+  <data name="PasswordLabel" xml:space="preserve">
+    <value>كلمة المرور</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>كلمة المرور مطلوبة.</value>
+  </data>
+  <data name="RememberMeLabel" xml:space="preserve">
+    <value>تذكرني</value>
+  </data>
   <data name="WiringTest" xml:space="preserve">
     <value>الترجمة تعمل</value>
   </data>

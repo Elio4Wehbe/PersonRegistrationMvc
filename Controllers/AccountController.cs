@@ -17,19 +17,22 @@ namespace PersonRegistrationMvc.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IPersonRepository _personRepository;
         private readonly IEmailSender _emailSender;
+        private readonly Microsoft.Extensions.Localization.IStringLocalizer<SharedResource> _localizer;
 
         public AccountController(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            RoleManager<IdentityRole> roleManager,
-            IPersonRepository personRepository,
-            IEmailSender emailSender)
+    UserManager<ApplicationUser> userManager,
+    SignInManager<ApplicationUser> signInManager,
+    RoleManager<IdentityRole> roleManager,
+    IPersonRepository personRepository,
+    IEmailSender emailSender,
+    Microsoft.Extensions.Localization.IStringLocalizer<SharedResource> localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _personRepository = personRepository;
             _emailSender = emailSender;
+            _localizer = localizer;
         }
 
         private string GetCurrentUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -70,7 +73,7 @@ namespace PersonRegistrationMvc.Controllers
                 return RedirectToAction("Index", "Dashboard");
             }
 
-            ModelState.AddModelError("", "Invalid login attempt.");
+            ModelState.AddModelError("", _localizer["InvalidLoginAttempt"]);
             return View(viewModel);
         }
 

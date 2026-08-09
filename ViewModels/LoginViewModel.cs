@@ -4,10 +4,12 @@ namespace PersonRegistrationMvc.ViewModels
 {
     public class LoginViewModel
     {
-        [Required, EmailAddress]
+        [Required(ErrorMessage = "EmailRequired")] //matches the key from the .resx files
+        [EmailAddress(ErrorMessage = "EmailInvalid")]
         public string Email { get; set; }
 
-        [Required, DataType(DataType.Password)]
+        [Required(ErrorMessage = "PasswordRequired")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         public bool RememberMe { get; set; }
