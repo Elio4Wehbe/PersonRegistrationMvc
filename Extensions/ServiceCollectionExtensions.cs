@@ -17,7 +17,10 @@ namespace PersonRegistrationMvc.Extensions
                 options.Filters.Add<Filters.GlobalExceptionFilter>();
             })
 .AddViewLocalization()
-.AddDataAnnotationsLocalization();
+.AddDataAnnotationsLocalization(options =>
+{
+    options.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(typeof(SharedResource));
+});
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
