@@ -10,19 +10,16 @@ namespace PersonRegistrationMvc.ViewModels
         [Required]
         public string Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "FullNameRequired")]
         public string FullName { get; set; }
 
-        [Required(ErrorMessage = "Please select a role.")]
+        [Required(ErrorMessage = "RoleRequired")]
         public string RoleId { get; set; }
 
-        
         public bool LinkExistingPerson { get; set; }
 
-        
         public int? PersonId { get; set; }
 
-        
         public int? Age { get; set; }
         public Gender? Gender { get; set; }
         public string? Major { get; set; }

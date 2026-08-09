@@ -106,7 +106,7 @@ namespace PersonRegistrationMvc.Controllers
                     $"Click <a href='{resetLink}'>here</a> to reset your password. If you didn't request this, ignore this email.");
             }
 
-            TempData["Message"] = "If that email is registered, a password reset link has been sent.";
+            TempData["Message"] = _localizer["ForgotPasswordConfirmation"].Value;
             return RedirectToAction("Login");
         }
 
@@ -126,14 +126,14 @@ namespace PersonRegistrationMvc.Controllers
             var user = await _userManager.FindByEmailAsync(viewModel.Email);
             if (user == null)
             {
-                TempData["Message"] = "Your password has been reset.";
+                TempData["Message"] = _localizer["ResetPasswordConfirmation"].Value;
                 return RedirectToAction("Login");
             }
 
             var result = await _userManager.ResetPasswordAsync(user, viewModel.Token, viewModel.NewPassword);
             if (result.Succeeded)
             {
-                TempData["Message"] = "Your password has been reset. You can log in now.";
+                TempData["Message"] = _localizer["ResetPasswordConfirmation"].Value;
                 return RedirectToAction("Login");
             }
 
@@ -164,20 +164,20 @@ namespace PersonRegistrationMvc.Controllers
 
             if (role == null)
             {
-                ModelState.AddModelError("RoleId", "Selected role no longer exists.");
+                ModelState.AddModelError("RoleId", _localizer["RoleNotFound"]);
             }
             else if (role.Name == "User")
             {
                 if (viewModel.LinkExistingPerson)
                 {
                     if (viewModel.PersonId == null || viewModel.PersonId <= 0)
-                        ModelState.AddModelError("PersonId", "Please select a library member to link.");
+                        ModelState.AddModelError("PersonId", _localizer["PersonLinkRequired"]);
                 }
                 else
                 {
-                    if (viewModel.Age == null) ModelState.AddModelError("Age", "Age is required.");
-                    if (viewModel.Gender == null) ModelState.AddModelError("Gender", "Gender is required.");
-                    if (string.IsNullOrWhiteSpace(viewModel.Major)) ModelState.AddModelError("Major", "Major is required.");
+                    if (viewModel.Age == null) ModelState.AddModelError("Age", _localizer["AgeRequired"]);
+                    if (viewModel.Gender == null) ModelState.AddModelError("Gender", _localizer["GenderRequiredMsg"]);
+                    if (string.IsNullOrWhiteSpace(viewModel.Major)) ModelState.AddModelError("Major", _localizer["MajorRequiredMsg"]);
                 }
             }
 
@@ -294,20 +294,20 @@ namespace PersonRegistrationMvc.Controllers
 
             if (selectedRole == null)
             {
-                ModelState.AddModelError("RoleId", "Selected role no longer exists.");
+                ModelState.AddModelError("RoleId", _localizer["RoleNotFound"]);
             }
             else if (selectedRole.Name == "User")
             {
                 if (viewModel.LinkExistingPerson)
                 {
                     if (viewModel.PersonId == null || viewModel.PersonId <= 0)
-                        ModelState.AddModelError("PersonId", "Please select a library member to link.");
+                        ModelState.AddModelError("PersonId", _localizer["PersonLinkRequired"]);
                 }
                 else
                 {
-                    if (viewModel.Age == null) ModelState.AddModelError("Age", "Age is required.");
-                    if (viewModel.Gender == null) ModelState.AddModelError("Gender", "Gender is required.");
-                    if (string.IsNullOrWhiteSpace(viewModel.Major)) ModelState.AddModelError("Major", "Major is required.");
+                    if (viewModel.Age == null) ModelState.AddModelError("Age", _localizer["AgeRequired"]);
+                    if (viewModel.Gender == null) ModelState.AddModelError("Gender", _localizer["GenderRequiredMsg"]);
+                    if (string.IsNullOrWhiteSpace(viewModel.Major)) ModelState.AddModelError("Major", _localizer["MajorRequiredMsg"]);
                 }
             }
 
@@ -323,7 +323,7 @@ namespace PersonRegistrationMvc.Controllers
 
             if (isEditingSelf && !currentRoles.Contains(selectedRole!.Name))
             {
-                ModelState.AddModelError("", "You cannot change your own role while logged in as this account.");
+                ModelState.AddModelError("", _localizer["CannotChangeOwnRole"]);
                 viewModel.RoleOptions = GetRoleOptions();
                 viewModel.PersonOptions = GetUnlinkedPersonOptions(user.PersonId);
                 return View(viewModel);
