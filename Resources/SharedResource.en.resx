@@ -333,4 +333,34 @@
 	<data name="FullNameMaxLength" xml:space="preserve"><value>Full name cannot exceed 100 characters.</value></data>
 	<data name="AgeRange" xml:space="preserve"><value>Age must be between 1 and 120.</value></data>
 	<data name="MajorMaxLength" xml:space="preserve"><value>Major cannot exceed 100 characters.</value></data>
+	<data name="AddBookButton" xml:space="preserve"><value>Add Book</value></data>
+	<data name="SearchBooksPlaceholder" xml:space="preserve"><value>Search books...</value></data>
+	<data name="TitleLabel" xml:space="preserve"><value>Title</value></data>
+	<data name="CategoryLabel" xml:space="preserve"><value>Category</value></data>
+	<data name="SelectCategoryOption" xml:space="preserve"><value>-- Select Category --</value></data>
+	<data name="PublishedYearLabel" xml:space="preserve"><value>Published Year</value></data>
+	<data name="TotalCopiesLabel" xml:space="preserve"><value>Total Copies</value></data>
+	<data name="AvailableCopiesLabel" xml:space="preserve"><value>Available Copies</value></data>
+	<data name="BorrowButton" xml:space="preserve"><value>Borrow</value></data>
+	<data name="BookDetailsTitle" xml:space="preserve"><value>Book Details</value></data>
+	<data name="EditBookTitle" xml:space="preserve"><value>Edit Book</value></data>
+	<data name="ArchivedBooksTitle" xml:space="preserve"><value>Archived Books</value></data>
+	<data name="TitleRequired" xml:space="preserve"><value>Title is required.</value></data>
+	<data name="TitleMaxLength" xml:space="preserve"><value>Title cannot exceed 200 characters.</value></data>
+	<data name="SelectCategoryRequired" xml:space="preserve"><value>Please select a category.</value></data>
+	<data name="PublishedYearRequired" xml:space="preserve"><value>Published year is required.</value></data>
+	<data name="PublishedYearRange" xml:space="preserve"><value>Published year must be between 1000 and 2100.</value></data>
+	<data name="TotalCopiesRequired" xml:space="preserve"><value>Total copies is required.</value></data>
+	<data name="TotalCopiesRange" xml:space="preserve"><value>Total copies cannot be negative.</value></data>
+	<data name="AvailableCopiesRequired" xml:space="preserve"><value>Available copies is required.</value></data>
+	<data name="AvailableCopiesRange" xml:space="preserve"><value>Available copies cannot be negative.</value></data>
+	<data name="BookNotDeletableMessage" xml:space="preserve"><value>This book cannot be archived because it has active borrows.</value></data>
+	<data name="AddAuthorButton" xml:space="preserve"><value>Add Author</value></data>
+	<data name="SearchAuthorsPlaceholder" xml:space="preserve"><value>Search authors...</value></data>
+	<data name="AuthorDetailsTitle" xml:space="preserve"><value>Author Details</value></data>
+	<data name="NoBooksYet" xml:space="preserve"><value>No books yet</value></data>
+	<data name="EditAuthorTitle" xml:space="preserve"><value>Edit Author</value></data>
+	<data name="AuthorNotDeletableMessage" xml:space="preserve"><value>This author cannot be deleted because they are linked to one or more books.</value></data>
+	<data name="AuthorNameRequired" xml:space="preserve"><value>Author's name is required.</value></data>
+	<data name="AuthorNameMaxLength" xml:space="preserve"><value>Author's name cannot exceed 100 characters.</value></data>
 </root>

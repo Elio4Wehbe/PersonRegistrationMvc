@@ -9,23 +9,23 @@ namespace PersonRegistrationMvc.ViewModels
     {
         public int BookId { get; set; }
 
-        [Required(ErrorMessage = "Title is required.")]
-        [StringLength(200, ErrorMessage = "Title cannot exceed 200 characters.")]
+        [Required(ErrorMessage = "TitleRequired")]
+        [StringLength(200, ErrorMessage = "TitleMaxLength")]
         public string Title { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a category.")]
+        [Range(1, int.MaxValue, ErrorMessage = "SelectCategoryRequired")]
         public int CategoryId { get; set; }
 
-        [Required(ErrorMessage = "Published year is required.")]
-        [Range(1000, 2100, ErrorMessage = "Published year must be between 1000 and 2100.")]
+        [Required(ErrorMessage = "PublishedYearRequired")]
+        [Range(1000, 2100, ErrorMessage = "PublishedYearRange")]
         public int PublishedYear { get; set; }
 
-        [Required(ErrorMessage = "Total copies is required.")]
-        [Range(0, int.MaxValue, ErrorMessage = "Total copies cannot be negative.")]
+        [Required(ErrorMessage = "TotalCopiesRequired")]
+        [Range(0, int.MaxValue, ErrorMessage = "TotalCopiesRange")]
         public int TotalCopies { get; set; }
 
-        [Required(ErrorMessage = "Available copies is required.")]
-        [Range(0, int.MaxValue, ErrorMessage = "Available copies cannot be negative.")]
+        [Required(ErrorMessage = "AvailableCopiesRequired")]
+        [Range(0, int.MaxValue, ErrorMessage = "AvailableCopiesRange")]
         public int AvailableCopies { get; set; }
 
         [ValidateNever]

@@ -11,11 +11,13 @@ namespace PersonRegistrationMvc.Controllers
     {
         private readonly IAuthorRepository _authorRepository;
         private readonly IBookRepository _bookRepository;
+        private readonly Microsoft.Extensions.Localization.IStringLocalizer<SharedResource> _localizer;
 
-        public AuthorController(IAuthorRepository authorRepository, IBookRepository bookRepository)
+        public AuthorController(IAuthorRepository authorRepository, IBookRepository bookRepository, Microsoft.Extensions.Localization.IStringLocalizer<SharedResource> localizer)
         {
             _authorRepository = authorRepository;
             _bookRepository = bookRepository;
+            _localizer = localizer;
         }
 
         private string GetCurrentUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -96,7 +98,7 @@ namespace PersonRegistrationMvc.Controllers
         {
             if (_authorRepository.IsLinkedToBooks(id))
             {
-                TempData["ErrorMessage"] = "This author cannot be deleted because they are linked to one or more books.";
+                TempData["ErrorMessage"] = _localizer["AuthorNotDeletableMessage"].Value;
                 return RedirectToAction("Index");
             }
 

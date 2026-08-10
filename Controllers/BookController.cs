@@ -14,17 +14,20 @@ namespace PersonRegistrationMvc.Controllers
         private readonly IBorrowRepository _borrowRepository;
         private readonly IAuthorRepository _authorRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly Microsoft.Extensions.Localization.IStringLocalizer<SharedResource> _localizer;
 
         public BookController(
             IBookRepository bookRepository,
             IBorrowRepository borrowRepository,
             IAuthorRepository authorRepository,
-            ICategoryRepository categoryRepository)
+            ICategoryRepository categoryRepository,
+            Microsoft.Extensions.Localization.IStringLocalizer<SharedResource> localizer)
         {
             _bookRepository = bookRepository;
             _borrowRepository = borrowRepository;
             _authorRepository = authorRepository;
             _categoryRepository = categoryRepository;
+            _localizer = localizer;
         }
 
         private List<SelectListItem> BuildAuthorOptions() =>
@@ -139,7 +142,7 @@ namespace PersonRegistrationMvc.Controllers
 
             if (hasActiveBorrows)
             {
-                TempData["ErrorMessage"] = "This book cannot be archived because it has active borrows.";
+                TempData["ErrorMessage"] = _localizer["BookNotDeletableMessage"].Value;
                 return RedirectToAction("Index");
             }
 

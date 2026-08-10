@@ -333,4 +333,34 @@
 	<data name="FullNameMaxLength" xml:space="preserve"><value>لا يمكن أن يتجاوز الاسم الكامل 100 حرف.</value></data>
 	<data name="AgeRange" xml:space="preserve"><value>يجب أن يكون العمر بين 1 و 120.</value></data>
 	<data name="MajorMaxLength" xml:space="preserve"><value>لا يمكن أن يتجاوز التخصص 100 حرف.</value></data>
+	<data name="AddBookButton" xml:space="preserve"><value>إضافة كتاب</value></data>
+	<data name="SearchBooksPlaceholder" xml:space="preserve"><value>...البحث عن الكتب</value></data>
+	<data name="TitleLabel" xml:space="preserve"><value>العنوان</value></data>
+	<data name="CategoryLabel" xml:space="preserve"><value>الفئة</value></data>
+	<data name="SelectCategoryOption" xml:space="preserve"><value>-- اختر الفئة --</value></data>
+	<data name="PublishedYearLabel" xml:space="preserve"><value>سنة النشر</value></data>
+	<data name="TotalCopiesLabel" xml:space="preserve"><value>إجمالي النسخ</value></data>
+	<data name="AvailableCopiesLabel" xml:space="preserve"><value>النسخ المتاحة</value></data>
+	<data name="BorrowButton" xml:space="preserve"><value>استعارة</value></data>
+	<data name="BookDetailsTitle" xml:space="preserve"><value>تفاصيل الكتاب</value></data>
+	<data name="EditBookTitle" xml:space="preserve"><value>تعديل الكتاب</value></data>
+	<data name="ArchivedBooksTitle" xml:space="preserve"><value>الكتب المؤرشفة</value></data>
+	<data name="TitleRequired" xml:space="preserve"><value>العنوان مطلوب.</value></data>
+	<data name="TitleMaxLength" xml:space="preserve"><value>لا يمكن أن يتجاوز العنوان 200 حرف.</value></data>
+	<data name="SelectCategoryRequired" xml:space="preserve"><value>الرجاء اختيار فئة.</value></data>
+	<data name="PublishedYearRequired" xml:space="preserve"><value>سنة النشر مطلوبة.</value></data>
+	<data name="PublishedYearRange" xml:space="preserve"><value>يجب أن تكون سنة النشر بين 1000 و 2100.</value></data>
+	<data name="TotalCopiesRequired" xml:space="preserve"><value>إجمالي النسخ مطلوب.</value></data>
+	<data name="TotalCopiesRange" xml:space="preserve"><value>لا يمكن أن يكون إجمالي النسخ سالباً.</value></data>
+	<data name="AvailableCopiesRequired" xml:space="preserve"><value>النسخ المتاحة مطلوبة.</value></data>
+	<data name="AvailableCopiesRange" xml:space="preserve"><value>لا يمكن أن تكون النسخ المتاحة سالبة.</value></data>
+	<data name="BookNotDeletableMessage" xml:space="preserve"><value>لا يمكن أرشفة هذا الكتاب لأن لديه استعارات نشطة.</value></data>
+	<data name="AddAuthorButton" xml:space="preserve"><value>إضافة مؤلف</value></data>
+	<data name="SearchAuthorsPlaceholder" xml:space="preserve"><value>...البحث عن المؤلفين</value></data>
+	<data name="AuthorDetailsTitle" xml:space="preserve"><value>تفاصيل المؤلف</value></data>
+	<data name="NoBooksYet" xml:space="preserve"><value>لا توجد كتب بعد</value></data>
+	<data name="EditAuthorTitle" xml:space="preserve"><value>تعديل المؤلف</value></data>
+	<data name="AuthorNotDeletableMessage" xml:space="preserve"><value>لا يمكن حذف هذا المؤلف لأنه مرتبط بكتاب واحد أو أكثر.</value></data>
+	<data name="AuthorNameRequired" xml:space="preserve"><value>اسم المؤلف مطلوب.</value></data>
+	<data name="AuthorNameMaxLength" xml:space="preserve"><value>لا يمكن أن يتجاوز اسم المؤلف 100 حرف.</value></data>
 </root>

@@ -1,18 +1,19 @@
 ﻿@model PersonRegistrationMvc.ViewModels.AuthorEditViewModel
+@inject Microsoft.Extensions.Localization.IStringLocalizer<PersonRegistrationMvc.SharedResource> Localizer
 
-<h2>Edit Author</h2>
+<h2>@Localizer["EditAuthorTitle"]</h2>
 
 <form asp-controller="Author" asp-action="Edit" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="AuthorId" />
 
     <div class="mb-3">
-        <label>Name</label>
+        <label>@Localizer["NameColumn"]</label>
         <input asp-for="Name" class="form-control" />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <button type="submit" class="btn btn-primary">@Localizer["SaveChangesButton"]</button>
 </form>
 
 @section Scripts {
