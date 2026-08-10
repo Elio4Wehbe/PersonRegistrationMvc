@@ -12,11 +12,13 @@ namespace PersonRegistrationMvc.Controllers
     {
         private readonly IPersonRepository _personRepository;
         private readonly IBorrowRepository _borrowRepository;
+        private readonly Microsoft.Extensions.Localization.IStringLocalizer<SharedResource> _localizer;
 
-        public PersonController(IPersonRepository personRepository, IBorrowRepository borrowRepository)
+        public PersonController(IPersonRepository personRepository, IBorrowRepository borrowRepository, Microsoft.Extensions.Localization.IStringLocalizer<SharedResource> localizer)
         {
             _personRepository = personRepository;
             _borrowRepository = borrowRepository;
+            _localizer = localizer;
         }
 
         private string GetCurrentUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -36,7 +38,7 @@ namespace PersonRegistrationMvc.Controllers
                 PersonId = person.PersonId,
                 FullName = person.FullName,
                 Age = person.Age,
-                Gender = person.Gender.ToString(),
+                Gender = person.Gender == PersonRegistrationMvc.Models.Gender.Male ? _localizer["MaleLabel"].Value : _localizer["FemaleLabel"].Value,
                 Major = person.Major,
                 ActiveBorrowCount = activeBorrows.Count,
                 CurrentlyBorrowedBooks = activeBorrows.Select(b => b.Book?.Title).Where(t => t != null).ToList()
@@ -118,7 +120,7 @@ namespace PersonRegistrationMvc.Controllers
 
             if (hasActiveBorrows)
             {
-                TempData["ErrorMessage"] = "This person cannot be archived because they have an active borrow.";
+                TempData["ErrorMessage"] = _localizer["ActiveBorrowBlockedMessage"].Value;
                 return RedirectToAction("Index");
             }
 

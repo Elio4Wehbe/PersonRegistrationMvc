@@ -1,35 +1,36 @@
 ﻿@model PersonRegistrationMvc.ViewModels.PersonEditViewModel
+@inject Microsoft.Extensions.Localization.IStringLocalizer<PersonRegistrationMvc.SharedResource> Localizer
 
-<h2>Edit Person</h2>
+<h2>@Localizer["EditPersonTitle"]</h2>
 
 <form asp-controller="Person" asp-action="Edit" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="PersonId" />
 
     <div class="mb-3">
-        <label>Full Name</label>
+        <label>@Localizer["FullNameLabel"]</label>
         <input asp-for="FullName" class="form-control" />
         <span asp-validation-for="FullName" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label>Age</label>
+        <label>@Localizer["AgeLabel"]</label>
         <input asp-for="Age" class="form-control" />
         <span asp-validation-for="Age" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label>Gender</label>
+        <label>@Localizer["GenderLabel"]</label>
         <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-control"></select>
     </div>
 
     <div class="mb-3">
-        <label>Major</label>
+        <label>@Localizer["MajorLabel"]</label>
         <input asp-for="Major" class="form-control" />
         <span asp-validation-for="Major" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <button type="submit" class="btn btn-primary">@Localizer["SaveChangesButton"]</button>
 </form>
 
 @section Scripts {
