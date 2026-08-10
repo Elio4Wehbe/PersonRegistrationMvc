@@ -294,4 +294,43 @@
   <data name="WiringTest" xml:space="preserve">
     <value>الترجمة تعمل</value>
   </data>
+	<data name="SearchPlaceholder" xml:space="preserve"><value>...البحث عن كل شيء</value></data>
+	<data name="SearchButton" xml:space="preserve"><value>بحث</value></data>
+	<data name="ResultsForLabel" xml:space="preserve"><value>نتائج البحث عن "{0}"</value></data>
+	<data name="EditButton" xml:space="preserve"><value>تعديل</value></data>
+	<data name="NoMatchesFound" xml:space="preserve"><value>لم يتم العثور على نتائج.</value></data>
+	<data name="ViewAllButton" xml:space="preserve"><value>عرض الكل</value></data>
+	<data name="ViewArchivedItemsButton" xml:space="preserve"><value>عرض العناصر المؤرشفة</value></data>
+	<data name="ArchivedItemsTitle" xml:space="preserve"><value>العناصر المؤرشفة</value></data>
+	<data name="TypeColumn" xml:space="preserve"><value>النوع</value></data>
+	<data name="NameColumn" xml:space="preserve"><value>الاسم</value></data>
+	<data name="DetailsColumn" xml:space="preserve"><value>التفاصيل</value></data>
+	<data name="ArchivedDateColumn" xml:space="preserve"><value>تاريخ الأرشفة</value></data>
+	<data name="ActionsColumn" xml:space="preserve"><value>الإجراءات</value></data>
+	<data name="RestoreButton" xml:space="preserve"><value>استعادة</value></data>
+	<data name="PersonTypeLabel" xml:space="preserve"><value>شخص</value></data>
+	<data name="BookTypeLabel" xml:space="preserve"><value>كتاب</value></data>
+	<data name="RegisterPersonButton" xml:space="preserve"><value>تسجيل شخص</value></data>
+	<data name="RegisterNewPersonTitle" xml:space="preserve"><value>تسجيل شخص جديد</value></data>
+	<data name="MaleLabel" xml:space="preserve"><value>ذكر</value></data>
+	<data name="FemaleLabel" xml:space="preserve"><value>أنثى</value></data>
+	<data name="CancelButton" xml:space="preserve"><value>إلغاء</value></data>
+	<data name="SubmitButton" xml:space="preserve"><value>إرسال</value></data>
+	<data name="RegisteredPersonsTitle" xml:space="preserve"><value>الأشخاص المسجلون</value></data>
+	<data name="SearchPersonsPlaceholder" xml:space="preserve"><value>...البحث عن الأشخاص</value></data>
+	<data name="DetailsButton" xml:space="preserve"><value>التفاصيل</value></data>
+	<data name="DeleteButton" xml:space="preserve"><value>حذف</value></data>
+	<data name="ConfirmDeleteTitle" xml:space="preserve"><value>تأكيد الحذف</value></data>
+	<data name="DeleteConfirmText" xml:space="preserve"><value>هل أنت متأكد أنك تريد حذف {0}؟</value></data>
+	<data name="YesDeleteButton" xml:space="preserve"><value>نعم، احذف</value></data>
+	<data name="PersonDetailsTitle" xml:space="preserve"><value>تفاصيل الشخص</value></data>
+	<data name="ActiveBorrowsLabel" xml:space="preserve"><value>الاستعارات النشطة</value></data>
+	<data name="CurrentlyBorrowedLabel" xml:space="preserve"><value>المستعار حالياً</value></data>
+	<data name="NoneLabel" xml:space="preserve"><value>لا يوجد</value></data>
+	<data name="EditPersonTitle" xml:space="preserve"><value>تعديل الشخص</value></data>
+	<data name="ArchivedPersonsTitle" xml:space="preserve"><value>الأشخاص المؤرشفون</value></data>
+	<data name="ActiveBorrowBlockedMessage" xml:space="preserve"><value>لا يمكن أرشفة هذا الشخص لأن لديه استعارة نشطة.</value></data>
+	<data name="FullNameMaxLength" xml:space="preserve"><value>لا يمكن أن يتجاوز الاسم الكامل 100 حرف.</value></data>
+	<data name="AgeRange" xml:space="preserve"><value>يجب أن يكون العمر بين 1 و 120.</value></data>
+	<data name="MajorMaxLength" xml:space="preserve"><value>لا يمكن أن يتجاوز التخصص 100 حرف.</value></data>
 </root>

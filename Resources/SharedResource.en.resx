@@ -294,4 +294,43 @@
   <data name="WiringTest" xml:space="preserve">
     <value>Localization is working</value>
   </data>
+	<data name="SearchPlaceholder" xml:space="preserve"><value>Search everything...</value></data>
+	<data name="SearchButton" xml:space="preserve"><value>Search</value></data>
+	<data name="ResultsForLabel" xml:space="preserve"><value>Results for "{0}"</value></data>
+	<data name="EditButton" xml:space="preserve"><value>Edit</value></data>
+	<data name="NoMatchesFound" xml:space="preserve"><value>No matches found.</value></data>
+	<data name="ViewAllButton" xml:space="preserve"><value>View All</value></data>
+	<data name="ViewArchivedItemsButton" xml:space="preserve"><value>View Archived Items</value></data>
+	<data name="ArchivedItemsTitle" xml:space="preserve"><value>Archived Items</value></data>
+	<data name="TypeColumn" xml:space="preserve"><value>Type</value></data>
+	<data name="NameColumn" xml:space="preserve"><value>Name</value></data>
+	<data name="DetailsColumn" xml:space="preserve"><value>Details</value></data>
+	<data name="ArchivedDateColumn" xml:space="preserve"><value>Archived Date</value></data>
+	<data name="ActionsColumn" xml:space="preserve"><value>Actions</value></data>
+	<data name="RestoreButton" xml:space="preserve"><value>Restore</value></data>
+	<data name="PersonTypeLabel" xml:space="preserve"><value>Person</value></data>
+	<data name="BookTypeLabel" xml:space="preserve"><value>Book</value></data>
+	<data name="RegisterPersonButton" xml:space="preserve"><value>Register Person</value></data>
+	<data name="RegisterNewPersonTitle" xml:space="preserve"><value>Register a New Person</value></data>
+	<data name="MaleLabel" xml:space="preserve"><value>Male</value></data>
+	<data name="FemaleLabel" xml:space="preserve"><value>Female</value></data>
+	<data name="CancelButton" xml:space="preserve"><value>Cancel</value></data>
+	<data name="SubmitButton" xml:space="preserve"><value>Submit</value></data>
+	<data name="RegisteredPersonsTitle" xml:space="preserve"><value>Registered Persons</value></data>
+	<data name="SearchPersonsPlaceholder" xml:space="preserve"><value>Search persons...</value></data>
+	<data name="DetailsButton" xml:space="preserve"><value>Details</value></data>
+	<data name="DeleteButton" xml:space="preserve"><value>Delete</value></data>
+	<data name="ConfirmDeleteTitle" xml:space="preserve"><value>Confirm Delete</value></data>
+	<data name="DeleteConfirmText" xml:space="preserve"><value>Are you sure you want to delete {0}?</value></data>
+	<data name="YesDeleteButton" xml:space="preserve"><value>Yes, Delete</value></data>
+	<data name="PersonDetailsTitle" xml:space="preserve"><value>Person Details</value></data>
+	<data name="ActiveBorrowsLabel" xml:space="preserve"><value>Active Borrows</value></data>
+	<data name="CurrentlyBorrowedLabel" xml:space="preserve"><value>Currently Borrowed</value></data>
+	<data name="NoneLabel" xml:space="preserve"><value>None</value></data>
+	<data name="EditPersonTitle" xml:space="preserve"><value>Edit Person</value></data>
+	<data name="ArchivedPersonsTitle" xml:space="preserve"><value>Archived Persons</value></data>
+	<data name="ActiveBorrowBlockedMessage" xml:space="preserve"><value>This person cannot be archived because they have an active borrow.</value></data>
+	<data name="FullNameMaxLength" xml:space="preserve"><value>Full name cannot exceed 100 characters.</value></data>
+	<data name="AgeRange" xml:space="preserve"><value>Age must be between 1 and 120.</value></data>
+	<data name="MajorMaxLength" xml:space="preserve"><value>Major cannot exceed 100 characters.</value></data>
 </root>

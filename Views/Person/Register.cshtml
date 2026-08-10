@@ -1,34 +1,35 @@
 ﻿@model PersonRegistrationMvc.ViewModels.PersonRegistrationViewModel
+@inject Microsoft.Extensions.Localization.IStringLocalizer<PersonRegistrationMvc.SharedResource> Localizer
 
-<h2>Register a New Person</h2>
+<h2>@Localizer["RegisterNewPersonTitle"]</h2>
 
 <form asp-controller="Person" asp-action="Register" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <div class="form-group">
-        <label asp-for="FullName"></label>
+        <label asp-for="FullName">@Localizer["FullNameLabel"]</label>
         <input asp-for="FullName" class="form-control" />
         <span asp-validation-for="FullName" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="Age"></label>
+        <label asp-for="Age">@Localizer["AgeLabel"]</label>
         <input asp-for="Age" class="form-control" />
         <span asp-validation-for="Age" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="Gender"></label>
+        <label asp-for="Gender">@Localizer["GenderLabel"]</label>
         <select asp-for="Gender" asp-items="Html.GetEnumSelectList<PersonRegistrationMvc.Models.Gender>()" class="form-control"></select>
     </div>
 
     <div class="form-group">
-        <label asp-for="Major"></label>
+        <label asp-for="Major">@Localizer["MajorLabel"]</label>
         <input asp-for="Major" class="form-control" />
         <span asp-validation-for="Major" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">@Localizer["SubmitButton"]</button>
 </form>
 
 @section Scripts {
