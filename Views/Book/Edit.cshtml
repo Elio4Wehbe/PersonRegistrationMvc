@@ -1,44 +1,44 @@
 ﻿@model PersonRegistrationMvc.ViewModels.BookEditViewModel
+@inject Microsoft.Extensions.Localization.IStringLocalizer<PersonRegistrationMvc.SharedResource> Localizer
 
-<h2>Edit Book</h2>
+<h2>@Localizer["EditBookTitle"]</h2>
 
 <form asp-controller="Book" asp-action="Edit" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="BookId" />
 
     <div class="mb-3">
-        <label>Title</label>
+        <label>@Localizer["TitleLabel"]</label>
         <input asp-for="Title" class="form-control" />
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label>Category</label>
+        <label>@Localizer["CategoryLabel"]</label>
         <select asp-for="CategoryId" asp-items="Model.CategoryOptions" class="form-control">
-            <option value="">-- Select Category --</option>
+            <option value="">@Localizer["SelectCategoryOption"]</option>
         </select>
         <span asp-validation-for="CategoryId" class="text-danger"></span>
     </div>
 
-
     <div class="mb-3">
-        <label>Published Year</label>
+        <label>@Localizer["PublishedYearLabel"]</label>
         <input asp-for="PublishedYear" class="form-control" />
         <span asp-validation-for="PublishedYear" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label>Total Copies</label>
+        <label>@Localizer["TotalCopiesLabel"]</label>
         <input asp-for="TotalCopies" class="form-control" />
         <span asp-validation-for="TotalCopies" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label>Available Copies</label>
+        <label>@Localizer["AvailableCopiesLabel"]</label>
         <input asp-for="AvailableCopies" class="form-control" />
         <span asp-validation-for="AvailableCopies" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label>Authors</label>
+        <label>@Localizer["AuthorsNav"]</label>
         <div class="border rounded p-2">
             @foreach (var author in Model.AuthorOptions)
             {
@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <button type="submit" class="btn btn-primary">@Localizer["SaveChangesButton"]</button>
 </form>
 
 @section Scripts {
