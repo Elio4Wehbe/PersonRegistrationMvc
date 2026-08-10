@@ -123,8 +123,26 @@
   <data name="AgeRequired" xml:space="preserve">
     <value>العمر مطلوب.</value>
   </data>
+  <data name="ArchivedNav" xml:space="preserve">
+    <value>الأرشيف</value>
+  </data>
+  <data name="AuditLogNav" xml:space="preserve">
+    <value> سجل التدقيق</value>
+  </data>
+  <data name="AuthorsNav" xml:space="preserve">
+    <value>المؤلفون</value>
+  </data>
+  <data name="BooksNav" xml:space="preserve">
+    <value>الكتب</value>
+  </data>
+  <data name="BorrowABookNav" xml:space="preserve">
+    <value>استعارة كتاب</value>
+  </data>
   <data name="CannotChangeOwnRole" xml:space="preserve">
     <value>لا يمكنك تغيير دورك الخاص أثناء تسجيل الدخول بهذا الحساب.</value>
+  </data>
+  <data name="CategoriesNav" xml:space="preserve">
+    <value>الفئات</value>
   </data>
   <data name="ConfirmPasswordLabel" xml:space="preserve">
     <value>تأكيد كلمة المرور</value>
@@ -140,6 +158,9 @@
   </data>
   <data name="CreateUserTitle" xml:space="preserve">
     <value> إنشاء مستخدم</value>
+  </data>
+  <data name="DashboardNav" xml:space="preserve">
+    <value>لوحة التحكم</value>
   </data>
   <data name="EditUserTitle" xml:space="preserve">
     <value>تعديل المستخدم</value>
@@ -174,6 +195,9 @@
   <data name="GenderRequiredMsg" xml:space="preserve">
     <value>الجنس مطلوب.</value>
   </data>
+  <data name="HelloGreeting" xml:space="preserve">
+    <value>مرحباً، {0}</value>
+  </data>
   <data name="InvalidLoginAttempt" xml:space="preserve">
     <value>محاولة تسجيل دخول غير صالحة.</value>
   </data>
@@ -186,14 +210,29 @@
   <data name="LoginButton" xml:space="preserve">
     <value> تسجيل الدخول</value>
   </data>
+  <data name="LoginNav" xml:space="preserve">
+    <value>تسجيل الدخول</value>
+  </data>
   <data name="LoginTitle" xml:space="preserve">
     <value>تسجيل الدخول</value>
+  </data>
+  <data name="LogoutButton" xml:space="preserve">
+    <value>تسجيل الخروج</value>
   </data>
   <data name="MajorLabel" xml:space="preserve">
     <value>التخصص</value>
   </data>
   <data name="MajorRequiredMsg" xml:space="preserve">
     <value>التخصص مطلوب.</value>
+  </data>
+  <data name="ManageNav" xml:space="preserve">
+    <value>إدارة</value>
+  </data>
+  <data name="ManageUsersNav" xml:space="preserve">
+    <value>إدارة المستخدمين</value>
+  </data>
+  <data name="MyBorrowsNav" xml:space="preserve">
+    <value>استعاراتي</value>
   </data>
   <data name="NewPasswordLabel" xml:space="preserve">
     <value>كلمة المرور الجديدة</value>
@@ -213,8 +252,14 @@
   <data name="PersonLinkRequired" xml:space="preserve">
     <value>الرجاء اختيار عضو مكتبة للربط.</value>
   </data>
+  <data name="PersonsNav" xml:space="preserve">
+    <value>الأشخاص</value>
+  </data>
   <data name="RememberMeLabel" xml:space="preserve">
     <value>تذكرني</value>
+  </data>
+  <data name="ReportsNav" xml:space="preserve">
+    <value>التقارير</value>
   </data>
   <data name="ResetPasswordButton" xml:space="preserve">
     <value>إعادة تعيين كلمة المرور</value>
@@ -235,7 +280,7 @@
     <value>الرجاء اختيار الدور.</value>
   </data>
   <data name="SaveChangesButton" xml:space="preserve">
-    <value>Save حفظ التغييرات</value>
+    <value> حفظ التغييرات</value>
   </data>
   <data name="SelectPersonOption" xml:space="preserve">
     <value>-- اختر الشخص --</value>

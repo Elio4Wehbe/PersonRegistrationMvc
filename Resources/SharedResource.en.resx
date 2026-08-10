@@ -123,8 +123,26 @@
   <data name="AgeRequired" xml:space="preserve">
     <value>Age is required.</value>
   </data>
+  <data name="ArchivedNav" xml:space="preserve">
+    <value>Archived</value>
+  </data>
+  <data name="AuditLogNav" xml:space="preserve">
+    <value>Audit Log</value>
+  </data>
+  <data name="AuthorsNav" xml:space="preserve">
+    <value>Authors</value>
+  </data>
+  <data name="BooksNav" xml:space="preserve">
+    <value>Books</value>
+  </data>
+  <data name="BorrowABookNav" xml:space="preserve">
+    <value>Borrow a Book</value>
+  </data>
   <data name="CannotChangeOwnRole" xml:space="preserve">
     <value>You cannot change your own role while logged in as this account.</value>
+  </data>
+  <data name="CategoriesNav" xml:space="preserve">
+    <value>Categories</value>
   </data>
   <data name="ConfirmPasswordLabel" xml:space="preserve">
     <value>Confirm Password</value>
@@ -140,6 +158,9 @@
   </data>
   <data name="CreateUserTitle" xml:space="preserve">
     <value>Create User</value>
+  </data>
+  <data name="DashboardNav" xml:space="preserve">
+    <value>Dashboard</value>
   </data>
   <data name="EditUserTitle" xml:space="preserve">
     <value>Edit User</value>
@@ -174,6 +195,9 @@
   <data name="GenderRequiredMsg" xml:space="preserve">
     <value>Gender is required.</value>
   </data>
+  <data name="HelloGreeting" xml:space="preserve">
+    <value>Hello, {0}</value>
+  </data>
   <data name="InvalidLoginAttempt" xml:space="preserve">
     <value>Invalid login attempt.</value>
   </data>
@@ -186,14 +210,29 @@
   <data name="LoginButton" xml:space="preserve">
     <value>Login</value>
   </data>
+  <data name="LoginNav" xml:space="preserve">
+    <value>Login</value>
+  </data>
   <data name="LoginTitle" xml:space="preserve">
     <value>Login</value>
+  </data>
+  <data name="LogoutButton" xml:space="preserve">
+    <value>Logout</value>
   </data>
   <data name="MajorLabel" xml:space="preserve">
     <value>Major</value>
   </data>
   <data name="MajorRequiredMsg" xml:space="preserve">
     <value>Major is required.</value>
+  </data>
+  <data name="ManageNav" xml:space="preserve">
+    <value>Manage</value>
+  </data>
+  <data name="ManageUsersNav" xml:space="preserve">
+    <value>Manage Users</value>
+  </data>
+  <data name="MyBorrowsNav" xml:space="preserve">
+    <value>My Borrows</value>
   </data>
   <data name="NewPasswordLabel" xml:space="preserve">
     <value>New Password</value>
@@ -213,8 +252,14 @@
   <data name="PersonLinkRequired" xml:space="preserve">
     <value> Please select a library member to link.</value>
   </data>
+  <data name="PersonsNav" xml:space="preserve">
+    <value>Persons</value>
+  </data>
   <data name="RememberMeLabel" xml:space="preserve">
     <value>Remember me</value>
+  </data>
+  <data name="ReportsNav" xml:space="preserve">
+    <value>Reports</value>
   </data>
   <data name="ResetPasswordButton" xml:space="preserve">
     <value>Reset Password</value>
