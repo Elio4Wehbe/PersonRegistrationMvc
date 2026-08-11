@@ -388,4 +388,30 @@
 	<data name="MaxActiveBorrowsMessage" xml:space="preserve"><value>This person already has 3 active borrows.</value></data>
 	<data name="SelectPersonRequired" xml:space="preserve"><value>Please select a person.</value></data>
 	<data name="SelectBookRequired" xml:space="preserve"><value>Please select a book.</value></data>
+	<data name="DashboardReportsTitle" xml:space="preserve"><value>Dashboard &amp; Reports</value></data>
+	<data name="TotalBooksLabel" xml:space="preserve"><value>Total Books</value></data>
+	<data name="TotalMembersLabel" xml:space="preserve"><value>Total Members</value></data>
+	<data name="ActiveBorrowingsLabel" xml:space="preserve"><value>Active Borrowings</value></data>
+	<data name="OverdueBooksLabel" xml:space="preserve"><value>Overdue Books</value></data>
+	<data name="ThisMonthVsLastMonthLabel" xml:space="preserve"><value>This Month vs Last Month</value></data>
+	<data name="MostBorrowedBooksTitle" xml:space="preserve"><value>Most Borrowed Books</value></data>
+	<data name="NoBorrowActivityYet" xml:space="preserve"><value>No borrow activity yet.</value></data>
+	<data name="BorrowingTrendsLabel" xml:space="preserve"><value>Borrowing Trends (last {0} months)</value></data>
+	<data name="ApplyButton" xml:space="preserve"><value>Apply</value></data>
+	<data name="TopCategoriesTitle" xml:space="preserve"><value>Top Categories</value></data>
+	<data name="ActiveUsersTitle" xml:space="preserve"><value>Active Users</value></data>
+	<data name="BorrowsChartLabel" xml:space="preserve"><value>Borrows</value></data>
+	<data name="AuditLogTitle" xml:space="preserve"><value>Audit Log</value></data>
+	<data name="SearchAuditLogPlaceholder" xml:space="preserve"><value>Search audit log...</value></data>
+	<data name="EntityTypeColumn" xml:space="preserve"><value>Entity Type</value></data>
+	<data name="ItemColumn" xml:space="preserve"><value>Item</value></data>
+	<data name="CreatedByColumn" xml:space="preserve"><value>Created By</value></data>
+	<data name="CreatedAtColumn" xml:space="preserve"><value>Created At</value></data>
+	<data name="UpdatedByColumn" xml:space="preserve"><value>Updated By</value></data>
+	<data name="UpdatedAtColumn" xml:space="preserve"><value>Updated At</value></data>
+	<data name="PreExistingRecord" xml:space="preserve"><value>Pre-existing record</value></data>
+	<data name="UnknownUser" xml:space="preserve"><value>Unknown user</value></data>
+	<data name="AuthorTypeLabel" xml:space="preserve"><value>Author</value></data>
+	<data name="BorrowTypeLabel" xml:space="preserve"><value>Borrow</value></data>
+	<data name="UserTypeLabel" xml:space="preserve"><value>User</value></data>
 </root>

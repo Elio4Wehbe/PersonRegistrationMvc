@@ -388,4 +388,30 @@
 	<data name="MaxActiveBorrowsMessage" xml:space="preserve"><value>هذا الشخص لديه بالفعل 3 استعارات نشطة.</value></data>
 	<data name="SelectPersonRequired" xml:space="preserve"><value>الرجاء اختيار شخص.</value></data>
 	<data name="SelectBookRequired" xml:space="preserve"><value>الرجاء اختيار كتاب.</value></data>
+	<data name="DashboardReportsTitle" xml:space="preserve"><value>لوحة التحكم والتقارير</value></data>
+	<data name="TotalBooksLabel" xml:space="preserve"><value>إجمالي الكتب</value></data>
+	<data name="TotalMembersLabel" xml:space="preserve"><value>إجمالي الأعضاء</value></data>
+	<data name="ActiveBorrowingsLabel" xml:space="preserve"><value>الاستعارات النشطة</value></data>
+	<data name="OverdueBooksLabel" xml:space="preserve"><value>الكتب المتأخرة</value></data>
+	<data name="ThisMonthVsLastMonthLabel" xml:space="preserve"><value>هذا الشهر مقابل الشهر الماضي</value></data>
+	<data name="MostBorrowedBooksTitle" xml:space="preserve"><value>الكتب الأكثر استعارة</value></data>
+	<data name="NoBorrowActivityYet" xml:space="preserve"><value>لا يوجد نشاط استعارة بعد.</value></data>
+	<data name="BorrowingTrendsLabel" xml:space="preserve"><value>اتجاهات الاستعارة (آخر {0} أشهر)</value></data>
+	<data name="ApplyButton" xml:space="preserve"><value>تطبيق</value></data>
+	<data name="TopCategoriesTitle" xml:space="preserve"><value>أهم الفئات</value></data>
+	<data name="ActiveUsersTitle" xml:space="preserve"><value>المستخدمون النشطون</value></data>
+	<data name="BorrowsChartLabel" xml:space="preserve"><value>الاستعارات</value></data>
+	<data name="AuditLogTitle" xml:space="preserve"><value>سجل التدقيق</value></data>
+	<data name="SearchAuditLogPlaceholder" xml:space="preserve"><value>...البحث في سجل التدقيق</value></data>
+	<data name="EntityTypeColumn" xml:space="preserve"><value>نوع العنصر</value></data>
+	<data name="ItemColumn" xml:space="preserve"><value>العنصر</value></data>
+	<data name="CreatedByColumn" xml:space="preserve"><value>أُنشئ بواسطة</value></data>
+	<data name="CreatedAtColumn" xml:space="preserve"><value>تاريخ الإنشاء</value></data>
+	<data name="UpdatedByColumn" xml:space="preserve"><value>عُدّل بواسطة</value></data>
+	<data name="UpdatedAtColumn" xml:space="preserve"><value>تاريخ التعديل</value></data>
+	<data name="PreExistingRecord" xml:space="preserve"><value>سجل موجود مسبقاً</value></data>
+	<data name="UnknownUser" xml:space="preserve"><value>مستخدم غير معروف</value></data>
+	<data name="AuthorTypeLabel" xml:space="preserve"><value>مؤلف</value></data>
+	<data name="BorrowTypeLabel" xml:space="preserve"><value>استعارة</value></data>
+	<data name="UserTypeLabel" xml:space="preserve"><value>مستخدم</value></data>
 </root>
