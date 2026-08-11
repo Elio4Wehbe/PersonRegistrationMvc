@@ -386,4 +386,6 @@
 	<data name="BookNotFoundMessage" xml:space="preserve"><value>Selected book could not be found.</value></data>
 	<data name="BookOutOfStockMessage" xml:space="preserve"><value>This book is out of stock.</value></data>
 	<data name="MaxActiveBorrowsMessage" xml:space="preserve"><value>This person already has 3 active borrows.</value></data>
+	<data name="SelectPersonRequired" xml:space="preserve"><value>Please select a person.</value></data>
+	<data name="SelectBookRequired" xml:space="preserve"><value>Please select a book.</value></data>
 </root>
