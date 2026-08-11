@@ -1,6 +1,7 @@
 ﻿@model PersonRegistrationMvc.ViewModels.BorrowViewModel
+@inject Microsoft.Extensions.Localization.IStringLocalizer<PersonRegistrationMvc.SharedResource> Localizer
 
-<h2>Borrow a Book</h2>
+<h2>@Localizer["BorrowABookNav"]</h2>
 
 <form asp-controller="Borrow" asp-action="Borrow" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -8,9 +9,9 @@
     @if (Model.IsAdmin)
     {
         <div class="mb-3">
-            <label>Person</label>
+            <label>@Localizer["PersonLabel"]</label>
             <select asp-for="PersonId" asp-items="Model.PersonOptions" class="form-control">
-                <option value="">-- Select Person --</option>
+                <option value="">@Localizer["SelectPersonOption"]</option>
             </select>
             <span asp-validation-for="PersonId" class="text-danger"></span>
         </div>
@@ -20,31 +21,31 @@
         <input type="hidden" asp-for="PersonId" />
     }
     <div class="mb-3">
-        <label>Category</label>
+        <label>@Localizer["CategoryLabel"]</label>
         <select id="categoryFilter" asp-items="Model.CategoryOptions" class="form-control">
-            <option value="">-- All Categories --</option>
+            <option value="">@Localizer["AllCategoriesOption"]</option>
         </select>
     </div>
 
     <div class="mb-3">
-        <label>Book</label>
+        <label>@Localizer["BookTypeLabel"]</label>
         <select asp-for="BookId" asp-items="Model.BookOptions" class="form-control">
-            <option value="">-- Select Book --</option>
+            <option value="">@Localizer["SelectBookOption"]</option>
         </select>
         <span asp-validation-for="BookId" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Borrow</button>
+    <button type="submit" class="btn btn-primary">@Localizer["BorrowButton"]</button>
 </form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
-        document.getElementById('categoryFilter').addEventListener('change', function () {
+        document.getElementById('categoryFilter').addEventListener('change', function() {
             var categoryId = this.value;
             var bookDropdown = document.getElementById('BookId');
 
-            bookDropdown.innerHTML = '<option value="">-- Select Book --</option>';
+            bookDropdown.innerHTML = '<option value="">@Localizer["SelectBookOption"]</option>';
 
             if (categoryId === '') {
                 return;
@@ -53,7 +54,7 @@
             fetch('/Book/GetBooksByCategory?categoryId=' + categoryId)
                 .then(response => response.json())
                 .then(books => {
-                    books.forEach(function (book) {
+                    books.forEach(function(book) {
                         var option = document.createElement('option');
                         option.value = book.value;
                         option.text = book.text;

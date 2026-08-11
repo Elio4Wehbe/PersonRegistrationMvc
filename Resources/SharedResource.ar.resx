@@ -370,4 +370,20 @@
 	<data name="CategoryNameMaxLength" xml:space="preserve"><value>لا يمكن أن يتجاوز اسم الفئة 50 حرف.</value></data>
 	<data name="EditCategoryTitle" xml:space="preserve"><value>تعديل الفئة</value></data>
 	<data name="DeleteUserConfirmText" xml:space="preserve"><value>هل أنت متأكد أنك تريد حذف {0}؟ لا يمكن التراجع عن هذا الإجراء.</value></data>
+	<data name="PersonLabel" xml:space="preserve"><value>الشخص</value></data>
+	<data name="AllCategoriesOption" xml:space="preserve"><value>-- جميع الفئات --</value></data>
+	<data name="SelectBookOption" xml:space="preserve"><value>-- اختر كتاباً --</value></data>
+	<data name="BorrowedBooksTitle" xml:space="preserve"><value>الكتب المستعارة</value></data>
+	<data name="BorrowDateColumn" xml:space="preserve"><value>تاريخ الاستعارة</value></data>
+	<data name="DueDateColumn" xml:space="preserve"><value>تاريخ الاستحقاق</value></data>
+	<data name="StatusColumn" xml:space="preserve"><value>الحالة</value></data>
+	<data name="ReturnedStatus" xml:space="preserve"><value>تمت الإعادة</value></data>
+	<data name="OverdueStatus" xml:space="preserve"><value>متأخر</value></data>
+	<data name="ActiveStatus" xml:space="preserve"><value>نشط</value></data>
+	<data name="ReturnButton" xml:space="preserve"><value>إرجاع</value></data>
+	<data name="ReturnConfirmText" xml:space="preserve"><value>هل تريد تحديد هذا الكتاب كمُعاد؟</value></data>
+	<data name="NotLinkedToMemberMessage" xml:space="preserve"><value>حسابك غير مرتبط بسجل عضو مكتبة بعد. يرجى التواصل مع المسؤول.</value></data>
+	<data name="BookNotFoundMessage" xml:space="preserve"><value>تعذر العثور على الكتاب المحدد.</value></data>
+	<data name="BookOutOfStockMessage" xml:space="preserve"><value>هذا الكتاب غير متوفر حالياً.</value></data>
+	<data name="MaxActiveBorrowsMessage" xml:space="preserve"><value>هذا الشخص لديه بالفعل 3 استعارات نشطة.</value></data>
 </root>
