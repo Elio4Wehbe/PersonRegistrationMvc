@@ -5,8 +5,8 @@ namespace PersonRegistrationMvc.ViewModels
 {
     public class CategoryAddViewModel
     {
-        [Required(ErrorMessage = "Category name is required.")]
-        [StringLength(50, ErrorMessage = "Category name cannot exceed 50 characters.")]
+        [Required(ErrorMessage = "CategoryNameRequired")]
+        [StringLength(50, ErrorMessage = "CategoryNameMaxLength")]
         public string Name { get; set; }
 
         public static Category ToEntity(CategoryAddViewModel viewModel)

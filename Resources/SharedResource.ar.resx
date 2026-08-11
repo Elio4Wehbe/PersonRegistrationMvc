@@ -363,4 +363,11 @@
 	<data name="AuthorNotDeletableMessage" xml:space="preserve"><value>لا يمكن حذف هذا المؤلف لأنه مرتبط بكتاب واحد أو أكثر.</value></data>
 	<data name="AuthorNameRequired" xml:space="preserve"><value>اسم المؤلف مطلوب.</value></data>
 	<data name="AuthorNameMaxLength" xml:space="preserve"><value>لا يمكن أن يتجاوز اسم المؤلف 100 حرف.</value></data>
+	<data name="AddCategoryButton" xml:space="preserve"><value>إضافة فئة</value></data>
+	<data name="SearchCategoriesPlaceholder" xml:space="preserve"><value>...البحث عن الفئات</value></data>
+	<data name="CategoryNotDeletableMessage" xml:space="preserve"><value>لا يمكن حذف هذه الفئة لأنها لا تزال تحتوي على كتب مخصصة لها.</value></data>
+	<data name="CategoryNameRequired" xml:space="preserve"><value>اسم الفئة مطلوب.</value></data>
+	<data name="CategoryNameMaxLength" xml:space="preserve"><value>لا يمكن أن يتجاوز اسم الفئة 50 حرف.</value></data>
+	<data name="EditCategoryTitle" xml:space="preserve"><value>تعديل الفئة</value></data>
+	<data name="DeleteUserConfirmText" xml:space="preserve"><value>هل أنت متأكد أنك تريد حذف {0}؟ لا يمكن التراجع عن هذا الإجراء.</value></data>
 </root>

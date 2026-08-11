@@ -363,4 +363,11 @@
 	<data name="AuthorNotDeletableMessage" xml:space="preserve"><value>This author cannot be deleted because they are linked to one or more books.</value></data>
 	<data name="AuthorNameRequired" xml:space="preserve"><value>Author's name is required.</value></data>
 	<data name="AuthorNameMaxLength" xml:space="preserve"><value>Author's name cannot exceed 100 characters.</value></data>
+	<data name="AddCategoryButton" xml:space="preserve"><value>Add Category</value></data>
+	<data name="SearchCategoriesPlaceholder" xml:space="preserve"><value>Search categories...</value></data>
+	<data name="CategoryNotDeletableMessage" xml:space="preserve"><value>This category cannot be deleted because it still has books assigned to it.</value></data>
+	<data name="CategoryNameRequired" xml:space="preserve"><value>Category name is required.</value></data>
+	<data name="CategoryNameMaxLength" xml:space="preserve"><value>Category name cannot exceed 50 characters.</value></data>
+	<data name="EditCategoryTitle" xml:space="preserve"><value>Edit Category</value></data>
+	<data name="DeleteUserConfirmText" xml:space="preserve"><value>Are you sure you want to delete {0}? This cannot be undone.</value></data>
 </root>
