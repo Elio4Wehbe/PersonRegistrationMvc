@@ -7,10 +7,12 @@ namespace PersonRegistrationMvc.ViewModels
 {
     public class BorrowViewModel
     {
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a person.")]
+        [Required(ErrorMessage = "SelectPersonRequired")]
+        [Range(1, int.MaxValue, ErrorMessage = "SelectPersonRequired")]
         public int PersonId { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a book.")]
+        [Required(ErrorMessage = "SelectBookRequired")]
+        [Range(1, int.MaxValue, ErrorMessage = "SelectBookRequired")]
         public int BookId { get; set; }
 
         public DateTime BorrowDate { get; set; }
