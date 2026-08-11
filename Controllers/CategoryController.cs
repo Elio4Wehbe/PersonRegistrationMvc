@@ -10,10 +10,12 @@ namespace PersonRegistrationMvc.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly Microsoft.Extensions.Localization.IStringLocalizer<SharedResource> _localizer;
 
-        public CategoryController(ICategoryRepository categoryRepository)
+        public CategoryController(ICategoryRepository categoryRepository, Microsoft.Extensions.Localization.IStringLocalizer<SharedResource> localizer)
         {
             _categoryRepository = categoryRepository;
+            _localizer = localizer;
         }
 
         private string GetCurrentUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -75,7 +77,7 @@ namespace PersonRegistrationMvc.Controllers
         {
             if (_categoryRepository.HasBooks(id))
             {
-                TempData["ErrorMessage"] = "This category cannot be deleted because it still has books assigned to it.";
+                TempData["ErrorMessage"] = _localizer["CategoryNotDeletableMessage"].Value;
                 return RedirectToAction("Index");
             }
 
