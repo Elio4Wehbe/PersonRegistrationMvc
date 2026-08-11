@@ -17,19 +17,22 @@ namespace PersonRegistrationMvc.Controllers
         private readonly IBookRepository _bookRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly Microsoft.Extensions.Localization.IStringLocalizer<SharedResource> _localizer;
 
         public BorrowController(
             IBorrowRepository borrowRepository,
             IPersonRepository personRepository,
             IBookRepository bookRepository,
             ICategoryRepository categoryRepository,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            Microsoft.Extensions.Localization.IStringLocalizer<SharedResource> localizer)
         {
             _borrowRepository = borrowRepository;
             _personRepository = personRepository;
             _bookRepository = bookRepository;
             _categoryRepository = categoryRepository;
             _userManager = userManager;
+            _localizer = localizer;
         }
 
         private string GetCurrentUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -71,7 +74,7 @@ namespace PersonRegistrationMvc.Controllers
                 var currentUser = await _userManager.FindByIdAsync(GetCurrentUserId());
                 if (currentUser?.PersonId == null)
                 {
-                    TempData["ErrorMessage"] = "Your account isn't linked to a library member record yet. Contact an admin.";
+                    TempData["ErrorMessage"] = _localizer["NotLinkedToMemberMessage"].Value;
                     return RedirectToAction("Index");
                 }
                 viewModel.PersonId = currentUser.PersonId.Value;
@@ -90,7 +93,7 @@ namespace PersonRegistrationMvc.Controllers
                 var currentUser = await _userManager.FindByIdAsync(GetCurrentUserId());
                 if (currentUser?.PersonId == null)
                 {
-                    TempData["ErrorMessage"] = "Your account isn't linked to a library member record yet. Contact an admin.";
+                    TempData["ErrorMessage"] = _localizer["NotLinkedToMemberMessage"].Value;
                     return RedirectToAction("Index");
                 }
                 // Non-admins never send PersonId from the form (it's hidden), so overwrite
@@ -106,11 +109,11 @@ namespace PersonRegistrationMvc.Controllers
 
             if (book == null)
             {
-                ModelState.AddModelError("", "Selected book could not be found.");
+                ModelState.AddModelError("", _localizer["BookNotFoundMessage"]);
             }
             else if (book.AvailableCopies < 1)
             {
-                ModelState.AddModelError("", "This book is out of stock.");
+                ModelState.AddModelError("", _localizer["BookOutOfStockMessage"]);
             }
 
             if (ModelState.IsValid)
@@ -120,7 +123,7 @@ namespace PersonRegistrationMvc.Controllers
 
                 if (activeBorrowCount >= 3)
                 {
-                    ModelState.AddModelError("", "This person already has 3 active borrows.");
+                    ModelState.AddModelError("", _localizer["MaxActiveBorrowsMessage"]);
                 }
             }
 

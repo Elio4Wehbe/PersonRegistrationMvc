@@ -370,4 +370,20 @@
 	<data name="CategoryNameMaxLength" xml:space="preserve"><value>Category name cannot exceed 50 characters.</value></data>
 	<data name="EditCategoryTitle" xml:space="preserve"><value>Edit Category</value></data>
 	<data name="DeleteUserConfirmText" xml:space="preserve"><value>Are you sure you want to delete {0}? This cannot be undone.</value></data>
+	<data name="PersonLabel" xml:space="preserve"><value>Person</value></data>
+	<data name="AllCategoriesOption" xml:space="preserve"><value>-- All Categories --</value></data>
+	<data name="SelectBookOption" xml:space="preserve"><value>-- Select Book --</value></data>
+	<data name="BorrowedBooksTitle" xml:space="preserve"><value>Borrowed Books</value></data>
+	<data name="BorrowDateColumn" xml:space="preserve"><value>Borrow Date</value></data>
+	<data name="DueDateColumn" xml:space="preserve"><value>Due Date</value></data>
+	<data name="StatusColumn" xml:space="preserve"><value>Status</value></data>
+	<data name="ReturnedStatus" xml:space="preserve"><value>Returned</value></data>
+	<data name="OverdueStatus" xml:space="preserve"><value>Overdue</value></data>
+	<data name="ActiveStatus" xml:space="preserve"><value>Active</value></data>
+	<data name="ReturnButton" xml:space="preserve"><value>Return</value></data>
+	<data name="ReturnConfirmText" xml:space="preserve"><value>Mark this book as returned?</value></data>
+	<data name="NotLinkedToMemberMessage" xml:space="preserve"><value>Your account isn't linked to a library member record yet. Contact an admin.</value></data>
+	<data name="BookNotFoundMessage" xml:space="preserve"><value>Selected book could not be found.</value></data>
+	<data name="BookOutOfStockMessage" xml:space="preserve"><value>This book is out of stock.</value></data>
+	<data name="MaxActiveBorrowsMessage" xml:space="preserve"><value>This person already has 3 active borrows.</value></data>
 </root>
