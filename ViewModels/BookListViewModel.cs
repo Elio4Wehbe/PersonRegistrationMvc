@@ -9,6 +9,7 @@ namespace PersonRegistrationMvc.ViewModels
         public int PublishedYear { get; set; }
         public string CategoryName { get; set; }
         public int AvailableCopies { get; set; }
+        public string? CoverImageUrl { get; set; }
 
         public static BookListViewModel FromEntity(Book book)
         {
@@ -18,7 +19,8 @@ namespace PersonRegistrationMvc.ViewModels
                 Title = book.Title,
                 CategoryName = book.Category?.Name,
                 PublishedYear = book.PublishedYear,
-                AvailableCopies = book.AvailableCopies
+                AvailableCopies = book.AvailableCopies,
+                CoverImageUrl = book.CoverImageUrl,
             };
         }
     }
