@@ -16,6 +16,12 @@
     }
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PersonRegistrationMvc.styles.css" asp-append-version="true" />
+    <script>
+            (function() {
+                const savedTheme = localStorage.getItem('theme') || 'light';
+                document.documentElement.setAttribute('data-bs-theme', savedTheme);
+            })();
+    </script>
 </head>
 <body>
     @inject Microsoft.Extensions.Localization.IStringLocalizer<PersonRegistrationMvc.SharedResource> Localizer
@@ -90,6 +96,11 @@
                                 <button type="submit" name="culture" value="ar" class="btn btn-sm btn-link text-dark">AR</button>
                             </form>
                         </li>
+                        <li class="nav-item d-flex align-items-center">
+                            <button type="button" id="darkModeToggle" class="btn btn-sm btn-link text-dark" aria-label="@Localizer["DarkModeToggleLabel"]">
+                                🌙
+                            </button>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -110,5 +121,13 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <script>
+            document.getElementById('darkModeToggle').addEventListener('click', function() {
+                const current = document.documentElement.getAttribute('data-bs-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-bs-theme', next);
+                localStorage.setItem('theme', next);
+            });
+    </script>
 </body>
 </html>

@@ -11,6 +11,7 @@ namespace PersonRegistrationMvc.ViewModels
         public int AvailableCopies { get; set; }
         public string CategoryName { get; set; }
         public List<string> AuthorNames { get; set; }
+        public string? CoverImageUrl { get; set; }
 
         public static BookDetailViewModel FromEntity(Book b) => new BookDetailViewModel
         {
@@ -20,7 +21,8 @@ namespace PersonRegistrationMvc.ViewModels
             TotalCopies = b.TotalCopies,
             AvailableCopies = b.AvailableCopies,
             CategoryName = b.Category?.Name,
-            AuthorNames = b.BookAuthors?.Select(ba => ba.Author?.Name).Where(n => n != null).ToList() ?? new List<string>()
+            AuthorNames = b.BookAuthors?.Select(ba => ba.Author?.Name).Where(n => n != null).ToList() ?? new List<string>(),
+            CoverImageUrl = b.CoverImageUrl
         };
     }
 }

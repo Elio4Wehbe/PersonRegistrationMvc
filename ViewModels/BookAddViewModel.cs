@@ -33,6 +33,7 @@ namespace PersonRegistrationMvc.ViewModels
 
         [ValidateNever]
         public List<SelectListItem> CategoryOptions { get; set; }
+        public string? CoverImageUrl { get; set; }
 
         public static Book ToEntity(BookAddViewModel viewModel)
         {
@@ -42,7 +43,8 @@ namespace PersonRegistrationMvc.ViewModels
                 CategoryId = viewModel.CategoryId,
                 PublishedYear = viewModel.PublishedYear,
                 TotalCopies = viewModel.TotalCopies,
-                AvailableCopies = viewModel.AvailableCopies
+                AvailableCopies = viewModel.AvailableCopies,
+                CoverImageUrl = viewModel.CoverImageUrl,
             };
         }
     }

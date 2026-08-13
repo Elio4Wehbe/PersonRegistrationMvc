@@ -12,5 +12,6 @@
         public ICollection<BookAuthor> BookAuthors { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? ArchivedDate { get; set; }
+        public string? CoverImageUrl { get; set; }
     }
 }

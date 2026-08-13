@@ -414,4 +414,6 @@
 	<data name="AuthorTypeLabel" xml:space="preserve"><value>Author</value></data>
 	<data name="BorrowTypeLabel" xml:space="preserve"><value>Borrow</value></data>
 	<data name="UserTypeLabel" xml:space="preserve"><value>User</value></data>
+<data name="DarkModeToggleLabel" xml:space="preserve"><value>Toggle dark mode</value></data>
+<data name="CoverImageUrlLabel" xml:space="preserve"><value>Cover Image URL (optional)</value></data>
 </root>

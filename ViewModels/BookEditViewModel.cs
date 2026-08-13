@@ -35,6 +35,7 @@ namespace PersonRegistrationMvc.ViewModels
 
         [ValidateNever]
         public List<SelectListItem> CategoryOptions { get; set; }
+        public string? CoverImageUrl { get; set; }
 
         public static BookEditViewModel FromEntity(Book book)
         {
@@ -45,7 +46,8 @@ namespace PersonRegistrationMvc.ViewModels
                 CategoryId = book.CategoryId,
                 PublishedYear = book.PublishedYear,
                 TotalCopies = book.TotalCopies,
-                AvailableCopies = book.AvailableCopies
+                AvailableCopies = book.AvailableCopies,
+                CoverImageUrl = book.CoverImageUrl,
             };
         }
 
@@ -56,6 +58,7 @@ namespace PersonRegistrationMvc.ViewModels
             book.PublishedYear = viewModel.PublishedYear;
             book.TotalCopies = viewModel.TotalCopies;
             book.AvailableCopies = viewModel.AvailableCopies;
+            book.CoverImageUrl = viewModel.CoverImageUrl;
         }
     }
 }

@@ -414,4 +414,6 @@
 	<data name="AuthorTypeLabel" xml:space="preserve"><value>مؤلف</value></data>
 	<data name="BorrowTypeLabel" xml:space="preserve"><value>استعارة</value></data>
 	<data name="UserTypeLabel" xml:space="preserve"><value>مستخدم</value></data>
+	<data name="DarkModeToggleLabel" xml:space="preserve"><value>تبديل الوضع الداكن</value></data>
+	<data name="CoverImageUrlLabel" xml:space="preserve"><value>رابط صورة الغلاف (اختياري)</value></data>
 </root>
